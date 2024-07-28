@@ -50,6 +50,10 @@ const AppContext = ({ children }) => {
       );
       if (localStorage.getItem("my-role") !== "admin") {
         localStorage.setItem("my-accessToken", response.data.data.accessToken);
+        localStorage.setItem(
+          "my-refreshToken",
+          response.data.data.refreshToken
+        );
         localStorage.setItem("my-role", role);
         setTimeout(() => {
           setAlert(null);
@@ -82,8 +86,11 @@ const AppContext = ({ children }) => {
           withCredentials: true,
         }
       );
+  
       localStorage.setItem("my-accessToken", response.data.data.accessToken);
+      localStorage.setItem("my-refreshToken", response.data.data.refreshToken);
       localStorage.setItem("my-role", role);
+      await getUser();
       if (localStorage.getItem("my-role") === "admin") {
         getCity();
       }
@@ -100,7 +107,7 @@ const AppContext = ({ children }) => {
         setAlert(null);
         navigate("/");
       }, 2000);
-      await getUser();
+      
     } catch (error) {
       setAlert({
         message: error.response.data.message || "Login failed",
@@ -124,10 +131,11 @@ const AppContext = ({ children }) => {
       );
       setUser(user.data.data);
     } catch (error) {
+      console.log(error);
       setAlert({ message: "Please Login Again", type: "error" });
-      navigate("/login");
-      localStorage.removeItem("my-accessToken");
-      localStorage.removeItem("my-role");
+      // navigate("/login");
+      // localStorage.removeItem("my-accessToken");
+      // localStorage.removeItem("my-role");
     }
   };
 
@@ -160,12 +168,13 @@ const AppContext = ({ children }) => {
   };
 
   const refreshAccessToken = async () => {
+    const role = localStorage.getItem("my-role");
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_USERS_API}/${role}/refresh${
           role[0].toLocaleUpperCase() + role.slice(1)
         }AccessToken`,
-        null,
+        localStorage.getItem("my-refreshToken"),
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("my-accessToken")}`,
@@ -174,9 +183,12 @@ const AppContext = ({ children }) => {
         }
       );
       localStorage.setItem("my-accessToken", response.data.data.accessToken);
-      setAlert({ message: response.data.message, type: "success" });
+      localStorage.setItem("my-refreshToken", response.data.data.refreshToken);
+      // setAlert({ message: response.data.message, type: "success" });
+      console.log(response.data.message);
       setLoading(false);
     } catch (error) {
+      console.log(error);
       setAlert({ message: error.response.data.message, type: "error" });
       setLoading(false);
     }
@@ -725,52 +737,79 @@ const AppContext = ({ children }) => {
 
   useEffect(() => {
     const accessToken = localStorage.getItem("my-accessToken");
+    const role = localStorage.getItem("my-role");
+
     if (!accessToken) {
       return;
     }
+
     const { exp } = jwtDecode(accessToken);
     const expirationTime = exp * 1000;
-
     const currentTime = Date.now();
     const timeUntilExpiration = expirationTime - currentTime;
-
     const refreshTimeout = timeUntilExpiration - 5 * 60 * 1000;
-
-    if (refreshTimeout > 0) {
-      setTimeout(refreshAccessToken, refreshTimeout);
-      getUser();
-    }
-    if (localStorage.getItem("my-role") === "admin") {
-      if (timeUntilExpiration < 0) {
-        setAlert({
-          message: "Session Expired.Please Login Again",
-          type: "error",
-        });
+    console.log("Current time:", currentTime);
+    console.log("Expiration time:", expirationTime);
+    console.log("Time until expiration:", timeUntilExpiration);
+    console.log("Refresh timeout:", refreshTimeout);
+    const handleRefreshAccessToken = async () => {
+      try {
+        if (refreshTimeout >= 0) {
+          setTimeout(refreshAccessToken, refreshTimeout);
+        } else if (timeUntilExpiration < 0) {
+          await refreshAccessToken();
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    handleRefreshAccessToken()
+      .then(async () => {
+        await getUser();
+      })
+      .then(() => {
+        if (localStorage.getItem("my-role") === "admin") {
+          if (timeUntilExpiration < 0) {
+            setAlert({
+              message: "Session Expired.Please Login Again",
+              type: "error",
+            });
+            setTimeout(() => {
+              localStorage.removeItem("my-accessToken");
+              localStorage.removeItem("my-role");
+              setUser(null);
+              setAlert(null);
+              navigate("/login");
+            }, 2000);
+            return;
+          }
+          getCity();
+        }
+        if (
+          localStorage.getItem("my-role") === "student" &&
+          localStorage.getItem("my-accessToken")
+        ) {
+          getStudentClass();
+          getSubmittedAssignments();
+          getUnSubmittedAssignments();
+        }
+        if (
+          localStorage.getItem("my-role") === "teacher" &&
+          localStorage.getItem("my-accessToken")
+        ) {
+          getCreatedAssignments();
+        }
+      }).catch((error) => {
+        setAlert({ message: "Something went wrong. Please Login Again", type: "error" });
         setTimeout(() => {
           localStorage.removeItem("my-accessToken");
           localStorage.removeItem("my-role");
           setUser(null);
           setAlert(null);
           navigate("/login");
-        }, 2000);
-        return;
-      }
-      getCity();
-    }
-    if (
-      localStorage.getItem("my-role") === "student" &&
-      localStorage.getItem("my-accessToken")
-    ) {
-      getStudentClass();
-      getSubmittedAssignments();
-      getUnSubmittedAssignments();
-    }
-    if (
-      localStorage.getItem("my-role") === "teacher" &&
-      localStorage.getItem("my-accessToken")
-    ) {
-      getCreatedAssignments();
-    }
+        },2000)
+        console.log(error);
+      })
   }, []);
 
   return (

@@ -8,7 +8,10 @@ const NavbarFunc = () => {
   const { user, logoutUser, theme } = useContext(GlobalContext);
 
   return (
-    <div className={"navbar shadow-md fixed flex justify-between z-10"} data-theme={theme}>
+    <div
+      className={"navbar shadow-md fixed flex justify-between z-10"}
+      data-theme={theme}
+    >
       <div className="">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
@@ -50,7 +53,10 @@ const NavbarFunc = () => {
             className="btn btn-ghost btn-circle avatar"
           >
             <div className="w-10 rounded-full">
-              <img alt="User Profile" src={`${user.profile}`} />
+              <img
+                alt="User Profile"
+                src={user.profile ? user.profile : 'profile.png'}
+              />
             </div>
           </div>
           <ul

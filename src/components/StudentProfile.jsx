@@ -21,7 +21,7 @@ const StudentProfile = () => {
         <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <div className="avatar w-24 h-24 rounded-full bg-gray-600 flex items-center justify-center">
-              <img src={user?.profile} alt="Profile" className="rounded-full" />
+              <img src={user.profile ? user.profile : '/profile.png'} alt="Profile" className="rounded-full" />
             </div>
             <div className="flex flex-col">
               <h2 className="text-2xl font-bold">{user?.fullName || "N/A"}</h2>
@@ -49,7 +49,7 @@ const StudentProfile = () => {
           </div>
           <div>
             <p className="font-semibold">Date of Birth</p>
-            <p>{new Date(user?.dob).toLocaleDateString() || "N/A"}</p>
+            <p>{new Date(user?.dob).toLocaleDateString() === 'Invalid Date' ? "N/A" : new Date(user?.dob).toLocaleDateString()}</p>
           </div>
           <div>
             <p className="font-semibold">CNIC</p>
@@ -72,9 +72,15 @@ const StudentProfile = () => {
             <p>{user?.gender || "N/A"}</p>
           </div>
           <div>
-            <p className="font-semibold">Location</p>
+            <p className="font-semibold">City</p>
             <p>
-              {user?.campus?.name}, {user?.city?.cityName}
+              {user?.city?.cityName || 'N/A'}
+            </p>
+          </div>
+          <div>
+            <p className="font-semibold">Campus</p>
+            <p>
+            {user?.campus?.name || "N/A"}
             </p>
           </div>
           <div>
@@ -86,7 +92,7 @@ const StudentProfile = () => {
             <p>{user?.enrolledInClass?.teacher?.fullName || "N/A"}</p>
           </div>
         </div>
-        <div className="flex justify-end mt-6">
+        <div className="flex justify-center mt-8">
           <button className="btn btn-accent" onClick={handleOpen}>
             Edit Profile
           </button>

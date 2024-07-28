@@ -491,6 +491,7 @@ const Signup = () => {
                 placeholder="example@123"
                 onChange={(e) => setUsername(e.target.value)}
                 value={username}
+                autoComplete="on"
               />
               <input
                 type="file"

@@ -210,6 +210,7 @@ const AddTeacher = () => {
             placeholder="example@123"
             onChange={(e) => setUsername(e.target.value)}
             value={username}
+            autoComplete="on"
           />
           <TextField
             id="email"

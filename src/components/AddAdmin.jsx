@@ -10,6 +10,7 @@ const AddAdmin = () => {
   const materialUIThemeChanger = useMaterialUIThemeChanger();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [gender, setGender] = useState("");
   const [password, setPassword] = useState("");
@@ -34,6 +35,14 @@ const AddAdmin = () => {
     if (!email) {
       setAlert({
         message: "Email is required",
+        type: "error",
+      });
+      return;
+    }
+
+    if (!username) {
+      setAlert({
+        message: "Username is required",
         type: "error",
       });
       return;
@@ -115,6 +124,7 @@ const AddAdmin = () => {
     const data = new FormData();
     data.append("profile", profile);
     data.append("fullName", fullName);
+    data.append("username", username);
     data.append("email", email);
     data.append("phoneNumber", phoneNumber);
     data.append("gender", gender);
@@ -143,6 +153,16 @@ const AddAdmin = () => {
             placeholder="Your Name"
             onChange={(e) => setFullName(e.target.value)}
             value={fullName}
+          />
+          <TextField
+            id="username"
+            label="Username"
+            type="text"
+            className="w-full"
+            placeholder="example123"
+            onChange={(e) => setUsername(e.target.value)}
+            value={username}
+            autoComplete="on"
           />
           <TextField
             id="email"
