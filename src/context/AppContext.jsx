@@ -153,8 +153,9 @@ const AppContext = ({ children }) => {
       );
       setAlert({ message: "Logged Out Successfully", type: "success" });
       localStorage.removeItem("my-accessToken");
-      localStorage.removeItem("my-role");
+      localStorage.removeItem("my-refreshToken");
       setTimeout(() => {
+        localStorage.removeItem("my-role");
         setAlert(null);
         setUser(null);
         navigate("/login");

@@ -92,7 +92,7 @@ const StudentProfile = () => {
             <p>{user?.enrolledInClass?.teacher?.fullName || "N/A"}</p>
           </div>
         </div>
-        <div className="flex justify-center mt-8">
+        <div className="flex justify-start mt-8">
           <button className="btn btn-accent" onClick={handleOpen}>
             Edit Profile
           </button>
