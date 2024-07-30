@@ -736,9 +736,51 @@ const AppContext = ({ children }) => {
     }
   };
 
+  const updateProfilePicture = async (data) => {
+    const role = localStorage.getItem("my-role");
+    try {
+      const response = await axios.put(
+        `${import.meta.env.VITE_USERS_API}/${role}/update${role[0].toLocaleUpperCase()+role.slice(1)}ProfilePicture`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("my-accessToken")}`,
+          },
+        }
+      );
+      setUser({ ...user, profile: response.data.data.profile });
+      setAlert({ message: response.data.message, type: "success" });
+    } catch (error) {
+      setAlert({ message: error.response.data.message, type: "error" });
+      console.log(error);
+    }
+  };
+
+  const updateProfileDetails = async (data) => {
+    const role = localStorage.getItem("my-role");
+    try {
+      const response = await axios.put(
+        `${import.meta.env.VITE_USERS_API}/${role}/update${role[0].toLocaleUpperCase()+role.slice(1)}ProfileDetails`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("my-accessToken")}`,
+          },
+        }
+      );
+      console.log(response.data.data);
+      setUser(response.data.data);
+      setAlert({ message: response.data.message, type: "success" });
+    } catch (error) {
+      setAlert({ message: error.response.data.message, type: "error" });
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     const accessToken = localStorage.getItem("my-accessToken");
     const role = localStorage.getItem("my-role");
+    const refreshToken = localStorage.getItem("my-refreshToken");
 
     if (!accessToken) {
       return;
@@ -769,34 +811,21 @@ const AppContext = ({ children }) => {
         await getUser();
       })
       .then(() => {
-        if (localStorage.getItem("my-role") === "admin") {
-          if (timeUntilExpiration < 0) {
-            setAlert({
-              message: "Session Expired.Please Login Again",
-              type: "error",
-            });
-            setTimeout(() => {
-              localStorage.removeItem("my-accessToken");
-              localStorage.removeItem("my-role");
-              setUser(null);
-              setAlert(null);
-              navigate("/login");
-            }, 2000);
-            return;
-          }
+        if (role === "admin") {
           getCity();
         }
         if (
-          localStorage.getItem("my-role") === "student" &&
-          localStorage.getItem("my-accessToken")
+          role === "student" &&
+          accessToken
         ) {
           getStudentClass();
           getSubmittedAssignments();
           getUnSubmittedAssignments();
         }
         if (
-          localStorage.getItem("my-role") === "teacher" &&
-          localStorage.getItem("my-accessToken")
+          role === "teacher" &&
+          accessToken &&
+          refreshToken
         ) {
           getCreatedAssignments();
         }
@@ -804,6 +833,7 @@ const AppContext = ({ children }) => {
         setAlert({ message: "Something went wrong. Please Login Again", type: "error" });
         setTimeout(() => {
           localStorage.removeItem("my-accessToken");
+          localStorage.removeItem("my-refreshToken");
           localStorage.removeItem("my-role");
           setUser(null);
           setAlert(null);
@@ -871,6 +901,8 @@ const AppContext = ({ children }) => {
         getStudentsNotSubmittedAssignment,
         assignMarks,
         getClasses,
+        updateProfilePicture,
+        updateProfileDetails,
       }}
     >
       {children}

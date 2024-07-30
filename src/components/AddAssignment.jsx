@@ -240,7 +240,7 @@ const AddAssignment = () => {
                   </p>
                   <p>
                     <b>Assignment of: </b>
-                    {assignment.className.name}
+                    {assignment.className.name} ({assignment.className.batch})
                   </p>
                   <div className="card-actions">
                     <Link

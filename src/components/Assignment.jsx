@@ -17,10 +17,8 @@ const Assignment = () => {
   return (
     <div className="w-full flex flex-col justify-center items-center gap-4">
       <div className="w-full flex flex-col justify-center items-center gap-4">
+        <h2 className="text-xl font-semibold text-center">Submissions</h2>
         <div className="overflow-x-auto shadow-xl rounded-md w-full md:w-[80%] lg:w-[70%]">
-          <h2 className="text-xl font-semibold text-center mb-4">
-            Submissions
-          </h2>
           <table className="table w-full">
             <thead>
               <tr className="text-center">
@@ -149,10 +147,10 @@ const Assignment = () => {
         </div>
       </div>
       <div className="w-full flex flex-col justify-center items-center gap-4 mt-8">
+        <h2 className="text-xl font-semibold text-center">
+          Pending Submissions
+        </h2>
         <div className="overflow-x-auto shadow-xl rounded-md w-full md:w-[80%] lg:w-[70%]">
-          <h2 className="text-xl font-semibold text-center mb-4">
-            Pending Submissions
-          </h2>
           <table className="table w-full">
             <thead>
               <tr className="text-center">

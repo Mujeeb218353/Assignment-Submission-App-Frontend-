@@ -1,13 +1,17 @@
 import React, { useContext, useState } from "react";
 import { GlobalContext } from "../context/AppContext";
-import { TextField } from "@mui/material";
+import { TextField, Autocomplete } from "@mui/material";
 
 const AdminProfile = () => {
-  const { user } = useContext(GlobalContext);
-  const [profile, setProfile] = useState(user);
+  const { 
+    user, 
+    setAlert,
+    updateProfilePicture,
+    updateProfileDetails
+  } = useContext(GlobalContext);
+  const [profilePicture, setProfilePicture] = useState(user?.profile);
+  const [profile, setProfile] = useState({});
   const [open, setOpen] = useState(false);
-
-  console.log(user);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setProfile({ ...profile, [name]: value });
@@ -15,6 +19,75 @@ const AdminProfile = () => {
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const handleProfilePictureUpdate = () => {
+    if (!profilePicture) {
+      setAlert({ message: "Profile picture is required", type: "error" });
+      return;
+    }
+
+    if (!user) {
+      setAlert({ message: "User not found", type: "error" });
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("profile", profilePicture);
+
+    console.log(formData.get("profilePicture"));
+
+    updateProfilePicture(formData).then(() => {
+      setProfilePicture("");
+      document.getElementById("profile-edit-modal").close();
+    });
+
+    document.getElementById("profile-edit-modal").close();
+
+  };
+
+  const handleProfileDetailsUpdate = () => {
+ 
+    if(!profile.fullName){
+      setAlert({ message: "Name is required", type: "error" });
+      return;
+    }
+
+    if(!profile.username){
+      setAlert({ message: "Username is required", type: "error" });
+      return;
+    }
+
+    if(!profile.email){
+      setAlert({ message: "Email is required", type: "error" });
+      return;
+    }
+
+    if(!profile.phoneNumber){
+      setAlert({ message: "Phone Number is required", type: "error" });
+      return;
+    }
+
+    if(!profile.gender){
+      setAlert({ message: "Gender is required", type: "error" });
+      return;
+    }
+
+    try {
+      updateProfileDetails(profile).then(() => {
+        setProfile({
+          fullName: "",
+          username: "",
+          email: "",
+          phoneNumber: "",
+          gender: "",
+        });
+        handleClose();
+      });
+    } catch (error) {
+      setAlert({ message: error.message, type: "error" });
+    }
+
+  };
 
   return (
     <div className="flex flex-col items-center justify-center w-full py-28 md:py-0">
@@ -30,12 +103,44 @@ const AdminProfile = () => {
             </div>
             <div className="flex flex-col">
               <h2 className="text-2xl font-bold">{user?.fullName || "N/A"}</h2>
-              <p className="text-gray-400">@{user?.username || "N/A"}</p>
+              <p className="text-gray-400">{user?.username || "N/A"}</p>
             </div>
           </div>
-          <button className="btn btn-accent mt-4 md:mt-0" onClick={handleOpen}>
+          <button
+            className="btn btn-accent mt-4 md:mt-0"
+            onClick={() => {
+              document.getElementById("profile-edit-modal").showModal();
+            }}
+          >
             Edit Profile Picture
           </button>
+          <dialog id="profile-edit-modal" className="modal">
+            <div className="modal-box flex flex-col gap-4">
+              <h3 className="font-bold text-lg">Edit Profile Picture</h3>
+              <input
+                type="file"
+                className="file-input file-input-bordered focus:outline-blue-500 h-[3.5rem] w-full"
+                onChange={(e) => setProfilePicture(e.target.files[0])}
+              />
+              <div className="modal-action">
+                <button
+                  className="btn"
+                  onClick={() => {
+                    document.getElementById("profile-edit-modal").close();
+                    setProfilePicture("");
+                  }}
+                >
+                  Close
+                </button>
+                <button
+                  className="btn btn-accent"
+                  onClick={handleProfilePictureUpdate}
+                >
+                  Update Profile
+                </button>
+              </div>
+            </div>
+          </dialog>
         </div>
         <hr className="my-6 border-gray-700" />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -66,21 +171,27 @@ const AdminProfile = () => {
           </div>
         </div>
         <div className="flex justify-start mt-8">
-          <button className="btn btn-accent" onClick={handleOpen}>
-            Edit Profile
+          <button
+            className="btn btn-accent"
+            onClick={() => {
+              setOpen(true);
+              setProfile(user);
+            }}
+          >
+            Edit Profile Details
           </button>
         </div>
       </div>
 
       {open && (
         <dialog
-          className="modal modal-open"
+          className="modal modal-open w-full"
           id="edit-profile-modal"
           open={open}
         >
           <div className="modal-box flex flex-col gap-4">
             <h3 className="font-bold text-lg">Edit Profile</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
               <TextField
                 label="Name"
                 variant="outlined"
@@ -113,37 +224,25 @@ const AdminProfile = () => {
                 onChange={handleInputChange}
                 fullWidth
               />
-              <TextField
-                label="CNIC"
-                variant="outlined"
-                name="CNIC"
-                value={profile.CNIC}
-                onChange={handleInputChange}
-                fullWidth
-              />
-              <TextField
-                label="Last Qualification"
-                variant="outlined"
-                name="lastQualification"
-                value={profile.lastQualification}
-                onChange={handleInputChange}
-                fullWidth
-              />
-              <TextField
-                label="Gender"
-                variant="outlined"
-                name="gender"
+              <Autocomplete
+                disablePortal
+                id="gender"
+                options={["Male", "Female", "Other"]}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Gender"
+                    variant="outlined"
+                    name="gender"
+                    value={profile.gender}
+                    onChange={handleInputChange}
+                    fullWidth
+                  />
+                )}
                 value={profile.gender}
-                onChange={handleInputChange}
-                fullWidth
-              />
-              <TextField
-                label="Address"
-                variant="outlined"
-                name="address"
-                value={profile.address}
-                onChange={handleInputChange}
-                fullWidth
+                onChange={(event, newValue) => {
+                  setProfile({ ...profile, gender: newValue });
+                }}
               />
             </div>
             <div className="modal-action">
@@ -152,10 +251,7 @@ const AdminProfile = () => {
               </button>
               <button
                 className="btn btn-accent"
-                onClick={() => {
-                  // handle update logic here
-                  handleClose();
-                }}
+                onClick={handleProfileDetailsUpdate}
               >
                 Update
               </button>
