@@ -25,7 +25,6 @@ const AddClass = () => {
   const [campus, setCampus] = useState(null);
   const [course, setCourse] = useState(null);
   const [batch, setBatch] = useState("");
-
   const handleAddClass = async () => {
     if (!className) {
       setAlert({ message: "Class Name is required", type: "error" });
@@ -95,6 +94,7 @@ const AddClass = () => {
       setCourse(null);
       setBatch('');
     } catch (error) {
+      console.log(error);
       if(error) return
     }
   };
@@ -164,12 +164,16 @@ const AddClass = () => {
             disablePortal
             id="course"
             options={
-              campus
-                ? courses.filter((course) => course.campus === campus?._id)
+              campus && campus._id
+                ? courses.filter(
+                    (course) =>
+                      Array.isArray(course.campus) &&
+                      course.campus.includes(campus._id)
+                  )
                 : []
             }
             getOptionLabel={(option) => option.name || "Unknown Course"}
-            isOptionEqualToValue={(option, value) => option.id === value.id}
+            isOptionEqualToValue={(option, value) => option._id === value._id}
             sx={{ width: "100%" }}
             renderInput={(params) => <TextField {...params} label="Course" />}
             onChange={(event, value) => {
@@ -181,15 +185,18 @@ const AddClass = () => {
           <Autocomplete
             disablePortal
             id="teacher"
-            options={teachers}
+            options={
+              course
+                ? teachers.filter((teacher) => teacher.course === course?._id)
+                : []
+            }
             getOptionLabel={(option) => option.fullName || "Unknown Teacher"}
-            isOptionEqualToValue={(option, value) => option._id === value._id}
+            isOptionEqualToValue={(option, value) => option.id === value.id}
             sx={{ width: "100%" }}
             renderInput={(params) => <TextField {...params} label="Teacher" />}
             onChange={(event, value) => setTeacher(value)}
             value={teacher}
           />
-
           <button
             className="btn btn-accent w-1/2 mt-2"
             onClick={handleAddClass}

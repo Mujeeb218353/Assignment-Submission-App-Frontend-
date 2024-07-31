@@ -324,9 +324,13 @@ const Signup = () => {
                 disablePortal
                 id="course"
                 options={
-                  campus
-                    ? courses.filter((course) => course.campus === campus?._id)
-                    : []
+                  campus && campus._id
+                ? courses.filter(
+                    (course) =>
+                      Array.isArray(course.campus) &&
+                      course.campus.includes(campus._id)
+                  )
+                : []
                 }
                 getOptionLabel={(option) => option.name || "Unknown Course"}
                 isOptionEqualToValue={(option, value) => option.id === value.id}

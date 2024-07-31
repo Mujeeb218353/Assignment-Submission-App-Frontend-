@@ -19,6 +19,7 @@ const AppContext = ({ children }) => {
   const [cities, setCities] = useState([]);
   const [campuses, setCampuses] = useState([]);
   const [courses, setCourses] = useState([]);
+  const [allCourses, setAllCourses] = useState([]);
   const [teachers, setTeachers] = useState([]);
   const [studentClass, setStudentClass] = useState("");
   const [submittedAssignments, setSubmittedAssignments] = useState([]);
@@ -170,12 +171,13 @@ const AppContext = ({ children }) => {
 
   const refreshAccessToken = async () => {
     const role = localStorage.getItem("my-role");
+    const refreshToken = localStorage.getItem("my-refreshToken");
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_USERS_API}/${role}/refresh${
           role[0].toLocaleUpperCase() + role.slice(1)
         }AccessToken`,
-        localStorage.getItem("my-refreshToken"),
+        { refreshToken },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("my-accessToken")}`,
@@ -207,6 +209,7 @@ const AppContext = ({ children }) => {
         }
       );
       setCities(response.data.data);
+      // console.log(response.data.data);
     } catch (error) {
       setAlert({ message: "Failed to fetch cities", type: "error" });
     }
@@ -240,6 +243,7 @@ const AppContext = ({ children }) => {
         }
       );
       setCourses(response.data.data);
+      console.log(response.data.data);
     } catch (error) {
       setAlert({ message: "Failed to fetch courses", type: "error" });
       setCourses([]);
@@ -321,13 +325,17 @@ const AppContext = ({ children }) => {
         message: response.data.message || "Course Added Successfully",
         type: "success",
       });
-      setCourses((prevCourses) => [response.data.data, ...prevCourses]);
+      setCourses(response.data.data);
+      setAllCourses(response.data.data);
+      console.log(response.data.data);
     } catch (error) {
       setAlert({ message: error.response.data.message, type: "error" });
+      console.log(error);
     }
   };
 
   const handleCourseChange = async (selectedCourse) => {
+    console.log(selectedCourse);
     if (!selectedCourse) {
       setTeachers([]);
       return;
@@ -595,11 +603,6 @@ const AppContext = ({ children }) => {
       );
       setCreatedAssignments(response.data.data);
     } catch (error) {
-      if (error.response.data.message === "jwt expired") {
-        localStorage.removeItem("my-accessToken");
-        localStorage.removeItem("my-role");
-        return;
-      }
       setAlert({ message: error.response.data.message, type: "error" });
       console.log(error);
     }
@@ -777,6 +780,24 @@ const AppContext = ({ children }) => {
     }
   }
 
+  const getAllCourses = async () => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_USERS_API}/admin/getAllCourses`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("my-accessToken")}`,
+          },
+        }
+      )
+      setAllCourses(response.data.data);
+      // console.log(response.data.data);
+    } catch (error) {
+      setAlert({ message: "Something went wrong, while fetching courses", type: "error" });
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     const accessToken = localStorage.getItem("my-accessToken");
     const role = localStorage.getItem("my-role");
@@ -813,6 +834,7 @@ const AppContext = ({ children }) => {
       .then(() => {
         if (role === "admin") {
           getCity();
+          getAllCourses()
         }
         if (
           role === "student" &&
@@ -877,6 +899,8 @@ const AppContext = ({ children }) => {
         setUnSubmittedAssignments,
         studentsSubmittedAssignment,
         studentsNotSubmittedAssignment,
+        allCourses,
+        setAllCourses,
         addCity,
         addCampus,
         addCourse,

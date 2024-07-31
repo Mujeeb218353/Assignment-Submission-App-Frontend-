@@ -17,6 +17,7 @@ const AddTeacher = () => {
     handleCampusChange,
   } = useContext(GlobalContext);
   const materialUIThemeChanger = useMaterialUIThemeChanger();
+  // console.log(courses);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -28,7 +29,6 @@ const AddTeacher = () => {
   const [city, setCity] = useState(null);
   const [campus, setCampus] = useState(null);
   const [course, setCourse] = useState(null);
-  
   const handleRegister = (e) => {
     e.preventDefault();
 
@@ -164,7 +164,7 @@ const AddTeacher = () => {
     const data = new FormData();
     data.append("profile", profile);
     data.append("fullName", fullName);
-    data.append("username", username)
+    data.append("username", username);
     data.append("email", email);
     data.append("phoneNumber", phoneNumber);
     data.append("gender", gender);
@@ -191,7 +191,10 @@ const AddTeacher = () => {
   };
   return (
     <ThemeProvider theme={materialUIThemeChanger}>
-      <form className="w-full flex flex-col gap-4 justify-center items-center" onSubmit={handleRegister}>
+      <form
+        className="w-full flex flex-col gap-4 justify-center items-center"
+        onSubmit={handleRegister}
+      >
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full lg:w-10/12 md:w-9/12 sm:w-10/12">
           <TextField
             id="name"
@@ -294,19 +297,23 @@ const AddTeacher = () => {
             disablePortal
             id="course"
             options={
-              campus
-                ? courses.filter((course) => course.campus === campus?._id)
+              campus && campus._id
+                ? courses.filter(
+                    (course) =>
+                      Array.isArray(course.campus) &&
+                      course.campus.includes(campus._id)
+                  )
                 : []
             }
             getOptionLabel={(option) => option.name || "Unknown Course"}
-            isOptionEqualToValue={(option, value) => option.id === value.id}
+            isOptionEqualToValue={(option, value) => option._id === value._id}
             sx={{ width: "100%" }}
             renderInput={(params) => <TextField {...params} label="Course" />}
             onChange={(event, value) => setCourse(value)}
             value={course}
           />
-          </div>
-          <div className="flex flex-col justify-center items-center gap-4  w-full lg:w-10/12 md:w-9/12 sm:w-10/12">
+        </div>
+        <div className="flex flex-col justify-center items-center gap-4  w-full lg:w-10/12 md:w-9/12 sm:w-10/12">
           <input
             type="file"
             className="file-input file-input-bordered focus:outline-blue-500 h-[3.5rem] w-full sm:w-1/2"
@@ -315,7 +322,7 @@ const AddTeacher = () => {
           <button className="btn btn-accent w-1/2 mt-2" type="submit">
             ADD TEACHER
           </button>
-          </div>
+        </div>
       </form>
     </ThemeProvider>
   );

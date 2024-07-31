@@ -3,12 +3,8 @@ import { GlobalContext } from "../context/AppContext";
 import { TextField, Autocomplete } from "@mui/material";
 
 const TeacherProfile = () => {
-  const { 
-    user, 
-    setAlert,
-    updateProfilePicture,
-    updateProfileDetails
-  } = useContext(GlobalContext);
+  const { user, setAlert, updateProfilePicture, updateProfileDetails } =
+    useContext(GlobalContext);
   const [profilePicture, setProfilePicture] = useState(user?.profile);
   const [profile, setProfile] = useState({});
   const [open, setOpen] = useState(false);
@@ -45,28 +41,27 @@ const TeacherProfile = () => {
   };
 
   const handleProfileDetailsUpdate = () => {
- 
-    if(!profile.fullName){
+    if (!profile.fullName) {
       setAlert({ message: "Name is required", type: "error" });
       return;
     }
 
-    if(!profile.username){
+    if (!profile.username) {
       setAlert({ message: "Username is required", type: "error" });
       return;
     }
 
-    if(!profile.email){
+    if (!profile.email) {
       setAlert({ message: "Email is required", type: "error" });
       return;
     }
 
-    if(!profile.phoneNumber){
+    if (!profile.phoneNumber) {
       setAlert({ message: "Phone Number is required", type: "error" });
       return;
     }
 
-    if(!profile.gender){
+    if (!profile.gender) {
       setAlert({ message: "Gender is required", type: "error" });
       return;
     }
@@ -85,7 +80,6 @@ const TeacherProfile = () => {
     } catch (error) {
       setAlert({ message: error.message, type: "error" });
     }
-
   };
 
   return (
@@ -169,17 +163,27 @@ const TeacherProfile = () => {
             <p>{user?.city?.cityName || "N/A"}</p>
           </div>
           <div>
-            <p className="font-semibold">Campus</p>
-            <p>{user?.campus?.name || "N/A"}</p>
-          </div>
-          <div>
             <p className="font-semibold">Instructor of</p>
             <p>
-              {user?.instructorOfClass?.map((instructor) => (
-                <li key={instructor._id}>
-                  {instructor.name} ({instructor.batch})
-                </li>
-              )) || "N/A"}
+              {
+                user?.instructorOfClass?.map((class1)=>(
+                  <li key={class1._id}>{class1.name} ({class1.batch})</li>
+                )) 
+                || 
+                "N/A"
+              }
+            </p>
+          </div>
+          <div>
+            <p className="font-semibold">Campus(es)</p>
+            <p>
+              {
+                user?.campus?.map((campus)=>(
+                  <li key={campus._id}>{campus.name}</li>
+                )) 
+                || 
+                "N/A"
+              }
             </p>
           </div>
         </div>

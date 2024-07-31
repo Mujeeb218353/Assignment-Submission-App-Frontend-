@@ -3,6 +3,7 @@ import useMaterialUIThemeChanger from "../hooks/useMaterialUiTheme";
 import AddCity from "./AddCity";
 import AddCampus from "./AddCampus";
 import AddCourse from "./AddCourse";
+import ShowCoursesCard from "./ShowCoursesCard";
 
 const Course = () => {
   const materialUIThemeChanger = useMaterialUIThemeChanger();
@@ -12,6 +13,7 @@ const Course = () => {
         <AddCity />
         <AddCampus />
         <AddCourse />
+        <ShowCoursesCard />
       </div>
     </ThemeProvider>
   );

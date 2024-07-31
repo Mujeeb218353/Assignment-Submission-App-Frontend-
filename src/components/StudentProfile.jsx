@@ -44,6 +44,11 @@ const StudentProfile = () => {
       return;
     }
 
+    if(!profile.fatherName){
+      setAlert({ message: "Father Name is required", type: "error" });
+      return;
+    }
+
     if(!profile.username){
       setAlert({ message: "Username is required", type: "error" });
       return;
@@ -88,6 +93,7 @@ const StudentProfile = () => {
       updateProfileDetails(profile).then(() => {
         setProfile({
           fullName: "",
+          fatherName: "",
           username: "",
           email: "",
           phoneNumber: "",
@@ -166,6 +172,10 @@ const StudentProfile = () => {
           <div>
             <p className="font-semibold">Role</p>
             <p>{user?.role?.toUpperCase() || "N/A"}</p>
+          </div>
+          <div>
+            <p className="font-semibold">Father Name</p>
+            <p>{user?.fatherName || "N/A"}</p>
           </div>
           <div>
             <p className="font-semibold">Phone No.</p>
@@ -252,6 +262,14 @@ const StudentProfile = () => {
                 variant="outlined"
                 name="fullName"
                 value={profile.fullName}
+                onChange={handleInputChange}
+                fullWidth
+              />
+              <TextField
+                label="Father Name"
+                variant="outlined"
+                name="fatherName"
+                value={profile.fatherName}
                 onChange={handleInputChange}
                 fullWidth
               />
