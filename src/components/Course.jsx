@@ -7,12 +7,15 @@ import ShowCoursesCard from "./ShowCoursesCard";
 
 const Course = () => {
   const materialUIThemeChanger = useMaterialUIThemeChanger();
+
   return (
     <ThemeProvider theme={materialUIThemeChanger}>
       <div className="w-full flex flex-col justify-center items-center gap-4">
-        <AddCity />
-        <AddCampus />
-        <AddCourse />
+        <div className="w-full flex flex-col justify-center items-center gap-4 md:flex-row">
+          <AddCity />
+          <AddCampus />
+          <AddCourse />
+        </div>
         <ShowCoursesCard />
       </div>
     </ThemeProvider>
