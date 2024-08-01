@@ -7,11 +7,8 @@ export const GlobalContext = createContext();
 
 const AppContext = ({ children }) => {
   const navigate = useNavigate();
-  const [theme, setTheme] = useState(
-    localStorage.getItem("my-theme") || "light"
-  );
+  const [theme, setTheme] = useState(localStorage.getItem("my-theme") || "light");
   const location = useLocation();
-  localStorage.setItem("my-theme", theme);
   const [alert, setAlert] = useState();
   const [user, setUser] = useState({});
   const [role, setRole] = useState("");
@@ -25,6 +22,7 @@ const AppContext = ({ children }) => {
   const [submittedAssignments, setSubmittedAssignments] = useState([]);
   const [unSubmittedAssignments, setUnSubmittedAssignments] = useState([]);
   const [createdAssignments, setCreatedAssignments] = useState([]);
+  const [allTeachers, setAllTeachers] = useState([]);
   const [assignmentId, setAssignmentId] = useState("");
   const [studentsSubmittedAssignment, setStudentsSubmittedAssignment] =
     useState([]);
@@ -49,18 +47,18 @@ const AppContext = ({ children }) => {
           withCredentials: true,
         }
       );
-      if (localStorage.getItem("my-role") !== "admin") {
+      if (localStorage.getItem("my-role") === "student") {
         localStorage.setItem("my-accessToken", response.data.data.accessToken);
-        localStorage.setItem(
-          "my-refreshToken",
-          response.data.data.refreshToken
-        );
+        localStorage.setItem("my-refreshToken", response.data.data.refreshToken);
         localStorage.setItem("my-role", role);
         setTimeout(() => {
           setAlert(null);
           navigate("/");
         }, 2000);
         await getUser();
+      }
+      if (localStorage.getItem("my-role") === "admin" && role === "teacher") {
+        setAllTeachers([...allTeachers, response.data.data]);
       }
       setAlert({
         message: response.data.message || "Registration successful",
@@ -798,6 +796,24 @@ const AppContext = ({ children }) => {
     }
   }
 
+  const getAllTeachers = async() =>{
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_USERS_API}/admin/getAllTeachers`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("my-accessToken")}`,
+          },
+        }
+      )
+      setAllTeachers(response.data.data);
+      console.log(response.data.data);
+    } catch (error) {
+      setAlert({ message: "Something went wrong, while fetching teachers", type: "error" });
+      console.log(error);
+    }
+  } 
+
   useEffect(() => {
     const accessToken = localStorage.getItem("my-accessToken");
     const role = localStorage.getItem("my-role");
@@ -835,6 +851,7 @@ const AppContext = ({ children }) => {
         if (role === "admin") {
           getCity();
           getAllCourses()
+          getAllTeachers()
         }
         if (
           role === "student" &&
@@ -901,6 +918,8 @@ const AppContext = ({ children }) => {
         studentsNotSubmittedAssignment,
         allCourses,
         setAllCourses,
+        allTeachers,
+        setAllTeachers,
         addCity,
         addCampus,
         addCourse,

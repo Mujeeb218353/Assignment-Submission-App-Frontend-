@@ -4,6 +4,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import useMaterialUIThemeChanger from "../hooks/useMaterialUiTheme";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
+import ShowAdminsCard from "./ShowAdminsCard";
 
 const AddAdmin = () => {
   const {
@@ -278,6 +279,7 @@ const AddAdmin = () => {
           </button>
         </div>
       </form>
+      <ShowAdminsCard />
     </ThemeProvider>
   );
 };

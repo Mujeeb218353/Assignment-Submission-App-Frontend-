@@ -46,7 +46,7 @@ const AddCampus = () => {
       </button>
       <dialog id="addCampusModal" className="modal">
         <div className="modal-box flex flex-col gap-4">
-          <h3 className="font-bold text-lg">Add Campus</h3>
+          <h3 className="font-bold text-lg text-center">Add Campus</h3>
           <Autocomplete
             disablePortal
             id="cities"

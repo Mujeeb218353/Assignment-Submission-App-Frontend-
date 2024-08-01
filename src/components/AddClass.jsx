@@ -4,6 +4,7 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { GlobalContext } from "../context/AppContext";
 import { useContext, useState } from "react";
+import ShowClassesCard from "./ShowClassesCard";
 
 const AddClass = () => {
   const {
@@ -204,6 +205,7 @@ const AddClass = () => {
             Create Class
           </button>
         </div>
+        <ShowClassesCard />
       </div>
     </ThemeProvider>
   );
