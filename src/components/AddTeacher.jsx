@@ -195,20 +195,19 @@ const AddTeacher = () => {
     <ThemeProvider theme={materialUIThemeChanger}>
       <div className="flex flex-col justify-center items-center">
         <button
-          className="btn btn-accent w-3/4 sm:w-1/2 md:w-1/2 lg:w-3/4 xl:w-1/3 my-4"
+          className="btn btn-accent w-3/4 sm:w-1/2 md:w-5/12 lg:w-4/12 xl:w-3/12 my-4"
           onClick={() => document.getElementById("addTeacherModal").showModal()}
         >
           ADD TEACHER
         </button>
         <dialog id="addTeacherModal" className="modal">
-          <div className="modal-box w-11/12 max-w-5xl ">
-            <h3 className="font-bold text-lg text-center">Add Teacher</h3>
-
+          <div className="modal-box w-11/12 max-w-5xl">
+            <h3 className="font-bold text-lg text-center mb-4">Add Teacher</h3>
             <form
               className="w-full flex flex-col gap-4 justify-center items-center"
               onSubmit={handleRegister}
             >
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full lg:w-10/12 md:w-9/12 sm:w-10/12">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full lg:w-10/12 md:w-9/12 sm:w-10/12">
                 <TextField
                   id="name"
                   label="Name"
@@ -344,14 +343,14 @@ const AddTeacher = () => {
                   value={course}
                 />
               </div>
-              <div className="flex flex-col justify-center items-center gap-4  w-full lg:w-10/12 md:w-9/12 sm:w-10/12">
+              <div className="flex flex-col justify-center items-center gap-4 w-full lg:w-10/12 md:w-9/12 sm:w-10/12">
                 <input
                   type="file"
-                  className="file-input file-input-bordered focus:outline-blue-500 h-[3.5rem] w-full sm:w-1/2"
+                  className="file-input file-input-bordered focus:outline-blue-500 h-[3.5rem] w-full md:w-3/4 lg:w-1/2"
                   onChange={(e) => setProfile(e.target.files[0])}
                 />
-                <button className="btn btn-accent w-1/2 mt-2" type="submit">
-                  ADD TEACHER
+                <button className="btn btn-accent w-full xs:w-1/2 md:w-1/3 mt-2 uppercase" type="submit">
+                  Add Teacher
                 </button>
               </div>
             </form>
@@ -375,7 +374,6 @@ const AddTeacher = () => {
                   X
                 </button>
           </div>
-          
         </dialog>
         <ShowTeachersCard />
       </div>

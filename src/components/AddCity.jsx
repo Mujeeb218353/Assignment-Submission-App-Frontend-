@@ -29,7 +29,7 @@ const AddCity = () => {
   return (
     <div className="flex flex-col justify-center items-center gap-4 w-full sm:3/4 md:w-1/2 m-auto">
       <button
-        className="btn btn-accent w-3/4 sm:w-1/2 md:w-1/2 lg:w-3/4 xl:w-1/3"
+        className="btn btn-accent w-3/4 sm:w-1/2 md:w-7/12 lg:w-3/4 xl:w-1/3"
         onClick={() => document.getElementById("addCityModal").showModal()}
       >
         ADD CITY
@@ -48,16 +48,16 @@ const AddCity = () => {
           />
           <div className="modal-action">
             <button
-              className="btn"
+              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
               onClick={() => {
                 document.getElementById("addCityModal").close();
                 setCityName("");
               }}
             >
-              Close
+              X
             </button>
-            <button className="btn btn-accent w-1/2 sm:w-1/3" onClick={handleAddCity}>
-              ADD CITY
+            <button className="btn btn-accent w-full xs:w-1/3 uppercase" onClick={handleAddCity}>
+              Add City
             </button>
           </div>
         </div>

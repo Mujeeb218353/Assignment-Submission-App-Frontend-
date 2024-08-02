@@ -24,8 +24,8 @@ const Admin = () => {
 
   const adminTabs = [
     { label: "Courses", value: "1", content: <Course /> },
-    { label: "Teachers", value: "2", content: <AddTeacher /> },
     { label: "Admins", value: "3", content: <AddAdmin /> },
+    { label: "Teachers", value: "2", content: <AddTeacher /> },
     { label: "Classes", value: "4", content: <AddClass /> },
     // { label: "Attendance", value: "5", content: <AddAttendance /> },
   ];

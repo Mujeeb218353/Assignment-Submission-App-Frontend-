@@ -7,7 +7,9 @@ export const GlobalContext = createContext();
 
 const AppContext = ({ children }) => {
   const navigate = useNavigate();
-  const [theme, setTheme] = useState(localStorage.getItem("my-theme") || "light");
+  const [theme, setTheme] = useState(
+    localStorage.getItem("my-theme") || "light"
+  );
   const location = useLocation();
   const [alert, setAlert] = useState();
   const [user, setUser] = useState({});
@@ -23,6 +25,8 @@ const AppContext = ({ children }) => {
   const [unSubmittedAssignments, setUnSubmittedAssignments] = useState([]);
   const [createdAssignments, setCreatedAssignments] = useState([]);
   const [allTeachers, setAllTeachers] = useState([]);
+  const [allAdmins, setAllAdmins] = useState([]);
+  const [allClasses, setAllClasses] = useState([]);
   const [assignmentId, setAssignmentId] = useState("");
   const [studentsSubmittedAssignment, setStudentsSubmittedAssignment] =
     useState([]);
@@ -49,7 +53,10 @@ const AppContext = ({ children }) => {
       );
       if (localStorage.getItem("my-role") === "student") {
         localStorage.setItem("my-accessToken", response.data.data.accessToken);
-        localStorage.setItem("my-refreshToken", response.data.data.refreshToken);
+        localStorage.setItem(
+          "my-refreshToken",
+          response.data.data.refreshToken
+        );
         localStorage.setItem("my-role", role);
         setTimeout(() => {
           setAlert(null);
@@ -59,6 +66,9 @@ const AppContext = ({ children }) => {
       }
       if (localStorage.getItem("my-role") === "admin" && role === "teacher") {
         setAllTeachers([...allTeachers, response.data.data]);
+      }
+      if (localStorage.getItem("my-role") === "admin" && role === "admin") {
+        setAllAdmins([...allAdmins, response.data.data]);
       }
       setAlert({
         message: response.data.message || "Registration successful",
@@ -85,13 +95,17 @@ const AppContext = ({ children }) => {
           withCredentials: true,
         }
       );
-  
+
       localStorage.setItem("my-accessToken", response.data.data.accessToken);
       localStorage.setItem("my-refreshToken", response.data.data.refreshToken);
       localStorage.setItem("my-role", role);
       await getUser();
       if (localStorage.getItem("my-role") === "admin") {
         getCity();
+        getAllCourses();
+        getAllTeachers();
+        getAllAdmins();
+        getAllClasses();
       }
       if (localStorage.getItem("my-role") === "student") {
         getStudentClass();
@@ -106,7 +120,6 @@ const AppContext = ({ children }) => {
         setAlert(null);
         navigate("/");
       }, 2000);
-      
     } catch (error) {
       setAlert({
         message: error.response.data.message || "Login failed",
@@ -185,13 +198,11 @@ const AppContext = ({ children }) => {
       );
       localStorage.setItem("my-accessToken", response.data.data.accessToken);
       localStorage.setItem("my-refreshToken", response.data.data.refreshToken);
-      // setAlert({ message: response.data.message, type: "success" });
-      console.log(response.data.message);
+      // console.log(response.data.message);
       setLoading(false);
     } catch (error) {
-      console.log(error);
-      setAlert({ message: error.response.data.message, type: "error" });
-      setLoading(false);
+      // console.log("Error In Refresh Access Token",error);
+      throw error;
     }
   };
 
@@ -388,6 +399,8 @@ const AppContext = ({ children }) => {
           },
         }
       );
+
+      setAllClasses([...allClasses, response.data.data]);
       setAlert({
         message: response.data.message || "Class Added Successfully",
         type: "success",
@@ -741,7 +754,9 @@ const AppContext = ({ children }) => {
     const role = localStorage.getItem("my-role");
     try {
       const response = await axios.put(
-        `${import.meta.env.VITE_USERS_API}/${role}/update${role[0].toLocaleUpperCase()+role.slice(1)}ProfilePicture`,
+        `${import.meta.env.VITE_USERS_API}/${role}/update${
+          role[0].toLocaleUpperCase() + role.slice(1)
+        }ProfilePicture`,
         data,
         {
           headers: {
@@ -761,7 +776,9 @@ const AppContext = ({ children }) => {
     const role = localStorage.getItem("my-role");
     try {
       const response = await axios.put(
-        `${import.meta.env.VITE_USERS_API}/${role}/update${role[0].toLocaleUpperCase()+role.slice(1)}ProfileDetails`,
+        `${import.meta.env.VITE_USERS_API}/${role}/update${
+          role[0].toLocaleUpperCase() + role.slice(1)
+        }ProfileDetails`,
         data,
         {
           headers: {
@@ -776,7 +793,7 @@ const AppContext = ({ children }) => {
       setAlert({ message: error.response.data.message, type: "error" });
       console.log(error);
     }
-  }
+  };
 
   const getAllCourses = async () => {
     try {
@@ -787,16 +804,19 @@ const AppContext = ({ children }) => {
             Authorization: `Bearer ${localStorage.getItem("my-accessToken")}`,
           },
         }
-      )
+      );
       setAllCourses(response.data.data);
       // console.log(response.data.data);
     } catch (error) {
-      setAlert({ message: "Something went wrong, while fetching courses", type: "error" });
+      setAlert({
+        message: "Something went wrong, while fetching courses",
+        type: "error",
+      });
       console.log(error);
     }
-  }
+  };
 
-  const getAllTeachers = async() =>{
+  const getAllTeachers = async () => {
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_USERS_API}/admin/getAllTeachers`,
@@ -805,15 +825,59 @@ const AppContext = ({ children }) => {
             Authorization: `Bearer ${localStorage.getItem("my-accessToken")}`,
           },
         }
-      )
+      );
       setAllTeachers(response.data.data);
       console.log(response.data.data);
     } catch (error) {
-      setAlert({ message: "Something went wrong, while fetching teachers", type: "error" });
+      setAlert({
+        message: "Something went wrong, while fetching teachers",
+        type: "error",
+      });
       console.log(error);
     }
-  } 
+  };
 
+  const getAllAdmins = async () => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_USERS_API}/admin/getAllAdmins`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("my-accessToken")}`,
+          },
+        }
+      );
+      setAllAdmins(response.data.data);
+      console.log(response.data.data);
+    } catch (error) {
+      setAlert({
+        message: "Something went wrong, while fetching teachers",
+        type: "error",
+      });
+      console.log(error);
+    }
+  };
+
+  const getAllClasses = async () => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_USERS_API}/admin/getAllClasses`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("my-accessToken")}`,
+          },
+        }
+      );
+      setAllClasses(response.data.data);
+      console.log(response.data.data);
+    } catch (error) {
+      setAlert({
+        message: "Something went wrong, while fetching classes",
+        type: "error",
+      });
+      console.log(error);
+    }
+  }
   useEffect(() => {
     const accessToken = localStorage.getItem("my-accessToken");
     const role = localStorage.getItem("my-role");
@@ -840,36 +904,39 @@ const AppContext = ({ children }) => {
           await refreshAccessToken();
         }
       } catch (error) {
-        console.log(error);
+        // console.log("handleRefreshAccessToken",error);
+        throw error;
       }
     };
     handleRefreshAccessToken()
       .then(async () => {
-        await getUser();
+        await getUser()
+          .then(() => {
+            if (role === "admin") {
+              getCity();
+              getAllCourses();
+              getAllTeachers();
+              getAllAdmins();
+              getAllClasses();
+            }
+            if (role === "student" && accessToken) {
+              getStudentClass();
+              getSubmittedAssignments();
+              getUnSubmittedAssignments();
+            }
+            if (role === "teacher" && accessToken && refreshToken) {
+              getCreatedAssignments();
+            }
+          })
+          .catch((error) => {
+            throw error;
+          });
       })
-      .then(() => {
-        if (role === "admin") {
-          getCity();
-          getAllCourses()
-          getAllTeachers()
-        }
-        if (
-          role === "student" &&
-          accessToken
-        ) {
-          getStudentClass();
-          getSubmittedAssignments();
-          getUnSubmittedAssignments();
-        }
-        if (
-          role === "teacher" &&
-          accessToken &&
-          refreshToken
-        ) {
-          getCreatedAssignments();
-        }
-      }).catch((error) => {
-        setAlert({ message: "Something went wrong. Please Login Again", type: "error" });
+      .catch((error) => {
+        setAlert({
+          message: "Session Expired. Please Login Again",
+          type: "error",
+        });
         setTimeout(() => {
           localStorage.removeItem("my-accessToken");
           localStorage.removeItem("my-refreshToken");
@@ -877,9 +944,9 @@ const AppContext = ({ children }) => {
           setUser(null);
           setAlert(null);
           navigate("/login");
-        },2000)
-        console.log(error);
-      })
+        }, 2000);
+        // console.log("Error: ",error);
+      });
   }, []);
 
   return (
@@ -920,6 +987,10 @@ const AppContext = ({ children }) => {
         setAllCourses,
         allTeachers,
         setAllTeachers,
+        allAdmins,
+        setAllAdmins,
+        allClasses,
+        setAllClasses,
         addCity,
         addCampus,
         addCourse,
