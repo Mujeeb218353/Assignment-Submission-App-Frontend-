@@ -218,7 +218,7 @@ const AddAssignment = () => {
             .reverse()
             .map((assignment) => (
               <div
-                className="card bg-base-100 shadow-xl w-full"
+                className="card bg-base-100 shadow-xl w-full border border-white" 
                 key={assignment._id}
               >
                 <div className="card-body">
@@ -242,7 +242,7 @@ const AddAssignment = () => {
                     <b>Assignment of: </b>
                     {assignment.className.name} ({assignment.className.batch})
                   </p>
-                  <div className="card-actions">
+                  <div className="card-actions justify-center xs:justify-start mt-2">
                     <Link
                       to={`/${assignment._id}`}
                       className="btn btn-info btn-outline"
@@ -317,9 +317,9 @@ const AddAssignment = () => {
                             });
                           }}
                         />
-                        <div className="flex items-center justify-end gap-4 w-full">
+                        <div className="flex items-center justify-center xs:justify-end gap-4 w-full">
                           <button
-                            className="btn"
+                            className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
                             onClick={() => {
                               document
                                 .getElementById("edit-assignment")
@@ -332,10 +332,10 @@ const AddAssignment = () => {
                               });
                             }}
                           >
-                            Cancel
+                            X
                           </button>
                           <button
-                            className="btn btn-accent w-1/2"
+                            className="btn btn-success w-full xs:w-1/2"
                             onClick={(e) => {
                               setEditAssignment({
                                 ...editAssignment,
@@ -359,15 +359,16 @@ const AddAssignment = () => {
                     </button>
                     <dialog id="delete-modal" className="modal">
                       <div className="modal-box">
-                        <p className="py-4">
-                          Are you sure want to delete?
-                        </p>
-                        <div className="modal-action">
-                            <button className="btn" onClick={()=> document.getElementById('delete-modal').close()}>Close</button>
-                            <button className="btn btn-accent w-1/4" onClick={()=> {
+                      <div className="flex flex-col gap-4 items-center justify-center mt-4">
+                          <p className="font-bold text-center">Are you sure want to delete?</p>
+                          <button className="btn btn-error" onClick={()=> {
                               deleteCreatedAssignment(assignment._id)
                               document.getElementById('delete-modal').close()
                             }}>Delete</button>
+                          </div>
+                        <div className="modal-action">
+                            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={()=> document.getElementById('delete-modal').close()}>X</button>
+                            
                         </div>
                       </div>
                     </dialog>

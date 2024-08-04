@@ -314,7 +314,7 @@ const AppContext = ({ children }) => {
     }
   };
 
-  const addCourse = async ({ name, cityId, campusId, userId }) => {
+  const addCourse = async ({ name, cityId, campusId }) => {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_USERS_API}/admin/addCourse`,
@@ -322,7 +322,6 @@ const AppContext = ({ children }) => {
           name,
           cityId,
           campusId,
-          userId,
         },
         {
           headers: {
@@ -334,9 +333,14 @@ const AppContext = ({ children }) => {
         message: response.data.message || "Course Added Successfully",
         type: "success",
       });
-      setCourses(response.data.data);
-      setAllCourses(response.data.data);
-      console.log(response.data.data);
+      setCourses(prevCourses => [
+        ...prevCourses.filter(course => course._id !== response.data.data._id),
+        response.data.data
+      ]);
+      setAllCourses(prevCourses => [
+        ...prevCourses.filter(course => course._id !== response.data.data._id),
+        response.data.data
+      ]);
     } catch (error) {
       setAlert({ message: error.response.data.message, type: "error" });
       console.log(error);
@@ -878,6 +882,106 @@ const AppContext = ({ children }) => {
       console.log(error);
     }
   }
+
+  const updateCourseName = async (data) => {
+    try {
+      const response = await axios.put(
+        `${import.meta.env.VITE_USERS_API}/admin/editCourse/${data.courseId}`,
+        {
+          courseName:data.name
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("my-accessToken")}`,
+          },
+        }
+      );
+      setAllCourses((prevCourses) =>
+        prevCourses.map((course) =>
+          course._id === data.courseId ? { ...course, name: response.data.data.name } : course
+        )
+      );
+      setAlert({ message: response.data.message, type: "success" });
+    } catch (error) {
+      setAlert({ message: error.response.data.message, type: "error" });
+    }
+  }
+
+  const deleteCourse = async (courseId) => {
+    try {
+      const response = await axios.delete(
+        `${import.meta.env.VITE_USERS_API}/admin/deleteCourse/${courseId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("my-accessToken")}`,
+          },
+        }
+      );
+      setAllCourses((prevCourses) =>
+        prevCourses.filter((course) => course._id !== courseId)
+      );
+      setCourses((prevCourses) =>
+        prevCourses.filter((course) => course._id !== courseId)
+      );
+      setAlert({ message: response.data.message, type: "success" });
+    } catch (error) {
+      setAlert({ message: error.response.data.message, type: "error" });
+    }
+  } 
+
+  const deleteCourseCity = async (cityId, courseId) => {
+    try {
+      const response = await axios.delete(
+        `${import.meta.env.VITE_USERS_API}/admin/deleteCourseCity/${cityId}&${courseId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("my-accessToken")}`,
+          },
+        }
+      )
+      setAllCourses([
+        ...allCourses.filter((course) => course._id !== courseId),
+        response.data.data
+      ]);
+      setCourses((prevCourses) =>[
+        prevCourses.filter((course) => course._id !== courseId), 
+        response.data.data
+      ]);
+      setAlert({ message: response.data.message, type: "success" });
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
+
+  const deleteCourseCampus = async (campusId, courseId) => {
+    try {
+      const response = await axios.delete(
+        `${import.meta.env.VITE_USERS_API}/admin/deleteCourseCampus/${campusId}&${courseId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("my-accessToken")}`,
+          },
+        }
+      )
+      // console.log(...allCourses.filter((course) => course._id !== response.data.data._id));
+      setAllCourses([
+        ...allCourses.filter((course) => course._id !== courseId),
+        response.data.data
+      ]);
+      setCourses((prevCourses) =>[
+        prevCourses.filter((course) => course._id !== courseId), 
+        response.data.data
+      ]);
+      
+      // console.log("Courses: ",courses);
+      
+      setAlert({ message: response.data.message, type: "success" });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     const accessToken = localStorage.getItem("my-accessToken");
     const role = localStorage.getItem("my-role");
@@ -1017,6 +1121,10 @@ const AppContext = ({ children }) => {
         getClasses,
         updateProfilePicture,
         updateProfileDetails,
+        updateCourseName,
+        deleteCourse,
+        deleteCourseCity,
+        deleteCourseCampus,
       }}
     >
       {children}

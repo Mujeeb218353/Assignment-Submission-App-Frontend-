@@ -34,7 +34,6 @@ const AddCourse = () => {
       name: courseName,
       cityId: city?._id,
       campusId: campus?._id,
-      userId: user._id,
     }).then(() => {
       setCourseName("");
       setCity(null);

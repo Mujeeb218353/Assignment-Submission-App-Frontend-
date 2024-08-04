@@ -69,6 +69,14 @@ const Admin = () => {
     }, 300);
   };
 
+  // if(navigator.onLine === false){
+  //   return (
+  //     <div className="text-center text-xl">
+  //       Please check your internet connection
+  //     </div>
+  //   );
+  // }
+
   if (user?.isVerified !== true) {
     return (
       <div className="text-center text-xl">
