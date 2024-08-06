@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { GlobalContext } from "../context/AppContext";
 
-const ThemeChanger = () => {
+const ThemeChanger = ({position}) => {
   const { theme, setTheme } = useContext(GlobalContext);
   const [isDarkMode, setIsDarkMode] = useState(theme === "sunset");
 
@@ -20,7 +20,7 @@ const ThemeChanger = () => {
   }, [setTheme]);
 
   return (
-    <div className="fixed bottom-1 right-1 lg:bottom-4 lg:right-4">
+    <div className={`${position}`}>
       <div className="w-full">
         <label className="swap swap-rotate btn btn-ghost btn-circle">
           <input
@@ -29,7 +29,7 @@ const ThemeChanger = () => {
             onChange={toggleTheme}
           />
           <svg
-            className="swap-off fill-gray-400 w-8"
+            className="swap-off fill-gray-500 w-8"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
           >

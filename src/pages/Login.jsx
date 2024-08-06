@@ -161,7 +161,7 @@ const Login = () => {
           </form>
         </section>
       </div>
-      <ThemeChanger />
+      <ThemeChanger position={'fixed bottom-1 right-1 lg:bottom-4 lg:right-4'}/>
     </div>
   );
 };

@@ -77,7 +77,9 @@ const Admin = () => {
   //   );
   // }
 
-  if (user?.isVerified !== true) {
+
+
+  if (user?.isVerified !== true && user?.role !== "admin") {
     return (
       <div className="text-center text-xl">
         Please verify yourself from our any campus

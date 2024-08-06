@@ -7,7 +7,9 @@ const ShowCoursesCard = () => {
     allCourses, 
     deleteCourse, 
     deleteCourseCity, 
-    deleteCourseCampus } = useContext(GlobalContext);
+    deleteCourseCampus,
+    user,
+   } = useContext(GlobalContext);
   const [editCourse, setEditCourse] = useState({});
   const [cityId, setCityId] = useState("");
   const [campusId, setCampusId] = useState("");
@@ -27,18 +29,18 @@ const ShowCoursesCard = () => {
 
   return (
     <div className="mx-[-1.5rem] sm:mx-auto mt-8">
-      <h2 className="text-3xl font-bold mb-8 text-center">All Courses</h2>
+      {/* <h2 className="text-3xl font-bold mb-8 text-center">All Courses</h2> */}
       {allCourses.length === 0 ? (
         <div className="text-center text-xl mt-8">Courses not found</div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 mx-2 xs:mx-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 xs:mx-4">
           {allCourses
             .slice()
             .reverse()
             .map((course) => (
               <div
                 key={course._id}
-                className="w-full shadow-xl mb-8 border border-white rounded-box p-4 lg:p-8"
+                className="w-full shadow-xl mb-8 border rounded-lg p-4 lg:p-8"
               >
                 <h2 className="text-2xl font-bold text-center my-4">
                   {course.name}
@@ -55,7 +57,7 @@ const ShowCoursesCard = () => {
                         <p>{new Date(course.updatedAt).toLocaleString()}</p>
                       </div>
                     </div>
-                    <div className="flex gap-2 justify-between xs:justify-center w-full xs:w-auto">
+                    <div className="flex gap-2 justify-evenly xs:justify-center w-full xs:w-auto">
                       <button
                         className="btn btn-success btn-outline"
                         onClick={() => {
@@ -91,7 +93,7 @@ const ShowCoursesCard = () => {
                         </div>
                       </dialog>
                       <button
-                        className="btn btn-error btn-outline"
+                        className={`btn btn-error btn-outline ${user.isVerified ? 'visible' : 'hidden'}`}
                         onClick={() => {
                           document
                             .getElementById("deleteCourseModal")
