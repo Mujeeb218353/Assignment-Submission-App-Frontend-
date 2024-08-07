@@ -66,13 +66,13 @@ const ShowCoursesCard = () => {
                             courseId: course._id,
                           });
                           document
-                            .getElementById("editCourseModal")
+                            .getElementById(`editCourseModal-${course._id}`)
                             .showModal();
                         }}
                       >
                         Edit
                       </button>
-                      <dialog id="editCourseModal" className="modal">
+                      <dialog id={`editCourseModal-${course._id}`} className="modal">
                         <div className="modal-box w-11/12 max-w-5xl">
                           <EditCourseModal
                             editCourse={editCourse}
@@ -83,7 +83,7 @@ const ShowCoursesCard = () => {
                               className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
                               onClick={() =>
                                 document
-                                  .getElementById("editCourseModal")
+                                  .getElementById(`editCourseModal-${course._id}`)
                                   .close()
                               }
                             >
@@ -96,13 +96,13 @@ const ShowCoursesCard = () => {
                         className={`btn btn-error btn-outline ${user.isVerified ? 'visible' : 'hidden'}`}
                         onClick={() => {
                           document
-                            .getElementById("deleteCourseModal")
+                            .getElementById(`deleteCourseModal-${course._id}`)
                             .showModal();
                         }}
                       >
                         Delete
                       </button>
-                      <dialog id="deleteCourseModal" className="modal">
+                      <dialog id={`deleteCourseModal-${course._id}`} className="modal">
                         <div className="modal-box">
                           <div className="flex flex-col gap-4 items-center justify-center mt-4">
                             <p className="font-bold">
@@ -113,7 +113,7 @@ const ShowCoursesCard = () => {
                               onClick={() => {
                                 deleteCourse(course._id);
                                 document
-                                  .getElementById("deleteCourseModal")
+                                  .getElementById(`deleteCourseModal-${course._id}`)
                                   .close();
                               }}
                             >
@@ -125,7 +125,7 @@ const ShowCoursesCard = () => {
                               className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
                               onClick={() =>
                                 document
-                                  .getElementById("deleteCourseModal")
+                                  .getElementById(`deleteCourseModal-${course._id}`)
                                   .close()
                               }
                             >

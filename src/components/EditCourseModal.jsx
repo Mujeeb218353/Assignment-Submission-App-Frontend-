@@ -1,10 +1,11 @@
 import { TextField } from "@mui/material";
-import { useState, useContext } from "react";
+import { useState, useContext, useId } from "react";
 import { GlobalContext } from "../context/AppContext";
 
 const EditCourseModal = ({ editCourse = { name: '', courseId: '' }, setEditCourse }) => {
   const { updateCourseName } = useContext(GlobalContext);
   const [editCourseNameBtn, setEditCourseNameBtn] = useState("Update");
+  const uniqueId = useId();
 
   const handleEditCourseName = async() =>{
     setEditCourseNameBtn("Updating...");
@@ -15,7 +16,7 @@ const EditCourseModal = ({ editCourse = { name: '', courseId: '' }, setEditCours
     }
 
     await updateCourseName(editCourse);
-    document.getElementById("editCourseModal").close()
+    document.getElementById(`editCourseModal-${editCourse.courseId}`).close()
     setEditCourse({ name: '', courseId: '' });
     setEditCourseNameBtn("Updated");
     setTimeout(() => {
@@ -28,7 +29,7 @@ const EditCourseModal = ({ editCourse = { name: '', courseId: '' }, setEditCours
       <h1 className="text-3xl font-bold text-center mb-4">Edit Course</h1>
       <div className="w-full grid gap-4">
         <TextField
-          id="courseName"
+          id={`editCourseModal-${uniqueId}`}
           label="Course Name"
           type="text"
           className="w-full"

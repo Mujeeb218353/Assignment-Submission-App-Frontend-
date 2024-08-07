@@ -4,7 +4,7 @@ import EditAdminModal from "./EditAdminModal";
 
 const ShowAdminsCard = () => {
   const { allAdmins, user } = useContext(GlobalContext);
-  const [editAdmin, setEditAdmin] = useState({})
+  const [editAdmin, setEditAdmin] = useState({});
 
   return (
     <div className="mx-[-1.5rem] sm:mx-auto mt-8">
@@ -16,7 +16,8 @@ const ShowAdminsCard = () => {
           {allAdmins
             .slice()
             .reverse()
-            .map((admin) => (
+            .map((admin) => 
+              (
               <div
                 key={admin._id}
                 className="p-6 rounded-lg shadow-lg flex flex-col border"
@@ -81,50 +82,57 @@ const ShowAdminsCard = () => {
                   className={`mt-4 flex lg:justify-end w-full gap-4 justify-center flex-wrap`}
                 >
                   <button
-                        className="btn btn-success btn-outline"
-                        onClick={() => {
-                          setEditAdmin({
-                            isVerified: admin.isVerified,
-                            campus: admin.campus,
-                          });
-                          document
-                            .getElementById("editAdminModal")
-                            .showModal();
-                        }}
-                      >
-                        Edit
-                      </button>
-                      <dialog id="editAdminModal" className="modal">
-                        <div className="modal-box w-11/12 max-w-5xl">
-                          <EditAdminModal
-                            editCourse={editAdmin}
-                            setEditCourse={setEditAdmin}
-                          />
-                          <div className="modal-action">
-                            <button
-                              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-                              onClick={() =>
-                                document
-                                  .getElementById("editAdminModal")
-                                  .close()
-                              }
-                            >
-                              ✕
-                            </button>
-                          </div>
-                        </div>
-                      </dialog>
+                    className="btn btn-success btn-outline"
+                    onClick={() => {
+                      setEditAdmin({
+                        _id: admin._id,
+                        isVerified: admin.isVerified,
+                        campus: {
+                          _id: admin.campus._id,
+                          name: admin.campus.name,
+                        },
+                        city:{
+                          _id: admin.city._id,
+                          cityName: admin.city.cityName
+                        }
+                      });
+                      // console.log(editAdmin);
+
+                      document.getElementById(`editAdminModal-${admin._id}`).showModal();
+                    }}
+                  >
+                    Edit
+                  </button>
+                  <dialog id={`editAdminModal-${admin._id}`} className="modal">
+                    <div className="modal-box w-11/12 max-w-5xl">
+                      <EditAdminModal
+                        editAdmin={editAdmin}
+                        setEditAdmin={setEditAdmin}
+                      />
+                      <div className="modal-action">
+                        <button
+                          className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                          onClick={() => {
+                            document.getElementById(`editAdminModal-${admin._id}`).close();
+                            setEditAdmin({});
+                          }}
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    </div>
+                  </dialog>
                   <button
                     className={`btn btn-error btn-outline ${
                       user.isVerified ? "visible" : "hidden"
                     }`}
                     onClick={() => {
-                      document.getElementById("deleteAdminModal").showModal();
+                      document.getElementById(`deleteAdminModal-${admin._id}`).showModal();
                     }}
                   >
                     Delete
                   </button>
-                  <dialog id="deleteAdminModal" className="modal">
+                  <dialog id={`deleteAdminModal-${admin._id}`} className="modal">
                     <div className="modal-box">
                       <div className="flex flex-col gap-4 items-center justify-center mt-4">
                         <p className="font-bold">
@@ -134,7 +142,7 @@ const ShowAdminsCard = () => {
                           className="btn btn-error"
                           onClick={() => {
                             // deleteCourse(course._id);
-                            document.getElementById("deleteAdminModal").close();
+                            document.getElementById(`deleteAdminModal-${admin._id}`).close();
                           }}
                         >
                           Delete
@@ -144,7 +152,7 @@ const ShowAdminsCard = () => {
                         <button
                           className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
                           onClick={() =>
-                            document.getElementById("deleteAdminModal").close()
+                            document.getElementById(`deleteAdminModal-${admin._id}`).close()
                           }
                         >
                           ✕

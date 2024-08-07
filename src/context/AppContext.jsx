@@ -982,6 +982,45 @@ const AppContext = ({ children }) => {
     }
   }
 
+  const editAdminCityOrCampus = async (adminId, cityId, campusId) => {
+    try {
+      const response = await axios.put(
+        `${import.meta.env.VITE_USERS_API}/admin/editAdminLocation/${adminId}&${cityId}&${campusId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("my-accessToken")}`,
+          },
+        }
+      );
+      setAllAdmins([
+        ...allAdmins.filter((admin) => admin._id !== adminId),
+        response.data.data
+      ]);
+      setAlert({ message: response.data.message, type: "success" });
+    } catch (error) {
+      console.log(error);
+      setAlert({ message: error.response.data.message, type: "error" });
+    }
+  }
+
+  const deleteAdmin = async (adminId) => {
+    try {
+      const response = await axios.put(
+        `${import.meta.env.VITE_USERS_API}/admin/deleteAdmin/${adminId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("my-accessToken")}`,
+          },
+        }
+      );
+      setAllAdmins([...allAdmins.filter((admin) => admin._id !== adminId)]);
+      setAlert({ message: response.data.message, type: "success" });
+    } catch (error) {
+      console.log(error);
+      setAlert({ message: error.response.data.message, type: "error" });
+    }
+  }
+
   useEffect(() => {
     const accessToken = localStorage.getItem("my-accessToken");
     const role = localStorage.getItem("my-role");
@@ -1125,6 +1164,8 @@ const AppContext = ({ children }) => {
         deleteCourse,
         deleteCourseCity,
         deleteCourseCampus,
+        editAdminCityOrCampus,
+        deleteAdmin,
       }}
     >
       {children}
