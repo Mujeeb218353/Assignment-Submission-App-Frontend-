@@ -982,13 +982,18 @@ const AppContext = ({ children }) => {
     }
   }
 
-  const editAdminCityOrCampus = async (adminId, cityId, campusId) => {
+  const editAdminCityOrCampus = async (adminId, cityId, campusId, isVerified) => {
     try {
       const response = await axios.put(
-        `${import.meta.env.VITE_USERS_API}/admin/editAdminLocation/${adminId}&${cityId}&${campusId}`,
+        `${import.meta.env.VITE_USERS_API}/admin/editAdminCityOrCampus/${adminId}`,
+        {
+          cityId,
+          campusId,
+          isVerified
+        },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("my-accessToken")}`,
+            Authorization: `Bearer ${localStorage.getItem('my-accessToken')}`,
           },
         }
       );
@@ -1005,7 +1010,7 @@ const AppContext = ({ children }) => {
 
   const deleteAdmin = async (adminId) => {
     try {
-      const response = await axios.put(
+      const response = await axios.delete(
         `${import.meta.env.VITE_USERS_API}/admin/deleteAdmin/${adminId}`,
         {
           headers: {

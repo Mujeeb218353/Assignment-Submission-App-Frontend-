@@ -3,16 +3,16 @@ import { GlobalContext } from "../context/AppContext";
 import EditAdminModal from "./EditAdminModal";
 
 const ShowAdminsCard = () => {
-  const { allAdmins, user } = useContext(GlobalContext);
+  const { allAdmins, user, deleteAdmin } = useContext(GlobalContext);
   const [editAdmin, setEditAdmin] = useState({});
 
   return (
-    <div className="mx-[-1.5rem] sm:mx-auto mt-8">
+    <div className="mx-[-1.5rem] sm:mx-auto mt-8 w-full md:w-auto">
       {/* <h1 className="text-3xl font-bold mb-8 text-center">Admins</h1> */}
       {allAdmins.length === 0 ? (
         <div className="text-center text-xl mt-8">Admins not found</div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {allAdmins
             .slice()
             .reverse()
@@ -68,7 +68,7 @@ const ShowAdminsCard = () => {
                   <div className={`${user.isVerified ? "visible" : "hidden"}`}>
                     <p>
                       <span className="font-bold">Verified: </span>
-                      {admin.isVerified.toString() || "N/A"}
+                      {admin?.isVerified != null ? admin.isVerified.toString() : "N/A"}
                     </p>
                   </div>
                   <div>
@@ -94,10 +94,9 @@ const ShowAdminsCard = () => {
                         city:{
                           _id: admin.city._id,
                           cityName: admin.city.cityName
-                        }
+                        },
                       });
                       // console.log(editAdmin);
-
                       document.getElementById(`editAdminModal-${admin._id}`).showModal();
                     }}
                   >
@@ -114,7 +113,7 @@ const ShowAdminsCard = () => {
                           className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
                           onClick={() => {
                             document.getElementById(`editAdminModal-${admin._id}`).close();
-                            setEditAdmin({});
+                            setEditAdmin({}); 
                           }}
                         >
                           ✕
@@ -141,7 +140,7 @@ const ShowAdminsCard = () => {
                         <button
                           className="btn btn-error"
                           onClick={() => {
-                            // deleteCourse(course._id);
+                            deleteAdmin(admin._id);
                             document.getElementById(`deleteAdminModal-${admin._id}`).close();
                           }}
                         >
@@ -161,8 +160,9 @@ const ShowAdminsCard = () => {
                     </div>
                   </dialog>
                 </div>
-                <div className={`${user.isVerified ? "visible" : "hidden"}`}>
-                  <hr className="my-4 border-gray-300" />
+                <hr className="my-4 border-gray-300" />
+                <div className={`${user.isVerified ? "visible" : "hidden"} grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4`}>
+                  <div>
                   <h3 className="text-xl font-bold mb-2">Created By</h3>
                   <p>
                     <span className="font-bold">Full Name:</span>{" "}
@@ -188,6 +188,42 @@ const ShowAdminsCard = () => {
                     <span className="font-bold">Campus:</span>{" "}
                     {admin.createdBy?.campus?.name || "N/A"}
                   </p>
+                  <p>
+                    <span className="font-bold">Created At:</span>{" "}
+                    {new Date(admin.createdAt).toLocaleString() || "N/A"}
+                  </p>
+                  </div>
+                  <div>
+                  <h3 className="text-xl font-bold mb-2">Updated By</h3>
+                  <p>
+                    <span className="font-bold">Full Name:</span>{" "}
+                    {admin.updatedBy?.fullName || "N/A"}
+                  </p>
+                  <p>
+                    <span className="font-bold">Email:</span>{" "}
+                    {admin.updatedBy?.email || "N/A"}
+                  </p>
+                  <p>
+                    <span className="font-bold">Gender:</span>{" "}
+                    {admin.updatedBy?.gender || "N/A"}
+                  </p>
+                  <p>
+                    <span className="font-bold">Phone Number:</span>{" "}
+                    {admin.updatedBy?.phoneNumber || "N/A"}
+                  </p>
+                  <p>
+                    <span className="font-bold">City:</span>{" "}
+                    {admin.updatedBy?.city?.cityName || "N/A"}
+                  </p>
+                  <p>
+                    <span className="font-bold">Campus:</span>{" "}
+                    {admin.updatedBy?.campus?.name || "N/A"}
+                  </p>
+                  <p>
+                    <span className="font-bold">Updated At:</span>{" "}
+                    {new Date(admin.updatedAt).toLocaleString() || "N/A"}
+                  </p>
+                  </div>
                 </div>
               </div>
             ))}

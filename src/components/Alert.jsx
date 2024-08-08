@@ -40,6 +40,7 @@ export default function CustomAlert() {
       onClose={handleClose}
       anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       TransitionComponent={SlideTransition}
+      sx={{ zIndex: 9999 }}
     >
       {alert && (
         <Alert

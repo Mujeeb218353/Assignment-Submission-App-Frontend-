@@ -28,7 +28,7 @@ const ShowCoursesCard = () => {
   };
 
   return (
-    <div className="mx-[-1.5rem] sm:mx-auto mt-8">
+    <div className="mx-[-1.5rem] sm:mx-auto mt-8 w-full md:w-auto">
       {/* <h2 className="text-3xl font-bold mb-8 text-center">All Courses</h2> */}
       {allCourses.length === 0 ? (
         <div className="text-center text-xl mt-8">Courses not found</div>

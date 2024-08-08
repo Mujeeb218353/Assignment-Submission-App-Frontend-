@@ -5,12 +5,12 @@ const ShowTeachersCard = () => {
   const { allTeachers } = useContext(GlobalContext);
 
   return (
-    <div className=" mx-[-1.5rem] md:mx-auto mt-8">
+    <div className=" mx-[-1.5rem] md:mx-auto mt-8 w-full md:w-auto">
       {/* <h1 className="text-3xl font-bold mb-8 text-center">Teachers</h1> */}
       {allTeachers.length === 0 ? (
         <div className="text-center text-xl mt-8">Teachers not found</div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {allTeachers
             .slice()
             .reverse()
@@ -89,7 +89,7 @@ const ShowTeachersCard = () => {
                   <div>
                     <p>
                       <span className="font-bold">Classes: </span>
-                      {teacher.instructorOfClass.map((cls, id) => (
+                      {teacher.instructorOfClass?.map((cls, id) => (
                         <li key={teacher._id + cls._id + id}>
                           {cls.name} ({cls.batch})
                         </li>

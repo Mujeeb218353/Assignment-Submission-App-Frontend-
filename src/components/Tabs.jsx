@@ -92,12 +92,12 @@ const Admin = () => {
   }
 
   return (
-    <div className="flex justify-center flex-col items-center">
+    <div className="flex justify-center flex-col items-center p-2">
       <h1 className="text-3xl font-bold text-center mb-1">
         {user?.role.charAt(0).toUpperCase() + user?.role.slice(1)} Dashboard
       </h1>
       <ThemeProvider theme={materialUIThemeChanger}>
-        <Box sx={{ width: "100%" }} ref={containerRef}>
+        <Box sx={{ width: "100%", padding: "0rem" }} ref={containerRef} >
           <TabContext value={value}>
             <Box
               sx={{ width: "100%", display: "flex", justifyContent: "center" }}
@@ -122,6 +122,7 @@ const Admin = () => {
                 direction="up"
                 mountOnEnter
                 unmountOnExit
+                sx={{ padding: "0rem" }}
               >
                 <TabPanel value={tab.value} className={blur ? "blur-md" : ""}>
                   {tab.content}

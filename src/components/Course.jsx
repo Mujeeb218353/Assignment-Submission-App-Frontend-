@@ -10,7 +10,7 @@ const Course = () => {
 
   return (
     <ThemeProvider theme={materialUIThemeChanger}>
-      <div className="w-full flex flex-col justify-center items-center gap-4">
+      <div className="w-full flex flex-col justify-center items-center gap-4 mt-4">
         <div className="w-full flex flex-col justify-center items-center gap-4 md:flex-row">
           <AddCity />
           <AddCampus />

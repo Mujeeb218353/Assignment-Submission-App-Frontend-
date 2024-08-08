@@ -1,5 +1,5 @@
 import { Autocomplete, TextField } from "@mui/material";
-import { useState, useContext, useId } from "react";
+import { useState, useContext, useEffect, useId } from "react";
 import { GlobalContext } from "../context/AppContext";
 
 const EditAdminModal = ({
@@ -17,27 +17,46 @@ const EditAdminModal = ({
     campuses,
     editAdminCityOrCampus,
     setAlert,
+    user,
   } = useContext(GlobalContext);
   const [editAdminBtn, setEditAdminBtn] = useState("Update");
-  const [city, setCity] = useState(null);
-  const [campus, setCampus] = useState(null);
+  const [city, setCity] = useState(editAdmin.city || null);
+  const [campus, setCampus] = useState(editAdmin.campus || null);
+  const [verification, setVerification] = useState(
+    editAdmin.isVerified ? "true" : "false"
+  );
   const uniqueId = useId();
-  console.log(cities);
+
+  useEffect(() => {
+    setCity(editAdmin.city || null);
+    setCampus(editAdmin.campus || null);
+    setVerification(editAdmin.isVerified ? "true" : "false");
+  }, [editAdmin]);
 
   const handleLocationUpdate = () => {
-    setEditAdminBtn("Updating...");
-    document.getElementById(`editAdminModal-${editAdmin._id}`).close();
-    if (
-      city._id === editAdmin.city._id &&
-      campus._id === editAdmin.campus._id
-    ) {
+    if (!city) {
       setAlert({
-        message: "City and campus were not updated since they are the same.",
+        message: "City is required",
         type: "error",
       });
-    } else {
-      editAdminCityOrCampus(editAdmin._id, city?._id, campus?._id);
+      return;
     }
+    if (!campus) {
+      setAlert({
+        message: "Campus is required",
+        type: "error",
+      });
+      return;
+    }
+    setEditAdminBtn("Updating...");
+    document.getElementById(`editAdminModal-${editAdmin._id}`).close();
+    editAdminCityOrCampus(
+      editAdmin._id,
+      city?._id,
+      campus?._id,
+      verification === "true"
+    );
+    setEditAdmin({});
     setEditAdminBtn("Update");
   };
 
@@ -50,30 +69,54 @@ const EditAdminModal = ({
           id={`editAdminCity-${uniqueId}`}
           options={cities}
           getOptionLabel={(option) => option.cityName || "Unknown City"}
-          isOptionEqualToValue={(option, value) => option.id === value.id}
+          isOptionEqualToValue={(option, value) => option._id === value._id}
           sx={{ width: "100%" }}
-          renderInput={(params) => <TextField {...params} label="City" id={uniqueId}/>}
+          renderInput={(params) => (
+            <TextField {...params} label="City" />
+          )}
           onChange={(event, value) => {
             handleCityChange(value);
             setCity(value);
           }}
           value={city}
+          autoComplete
         />
         <Autocomplete
           disablePortal
-          id={`editAdminCourse-${uniqueId}`}
+          id={`editAdminCampus-${uniqueId}`}
           options={
-            city ? campuses.filter((campus) => campus.city === city?._id) : []
+            city ? campuses.filter((campus) => campus.city === city._id) : []
           }
           getOptionLabel={(option) => option.name || "Unknown Campus"}
-          isOptionEqualToValue={(option, value) => option.id === value.id}
+          isOptionEqualToValue={(option, value) => option._id === value._id}
           sx={{ width: "100%" }}
-          renderInput={(params) => <TextField {...params} label="Campus" id={uniqueId}/>}
+          renderInput={(params) => (
+            <TextField {...params} label="Campus" />
+          )}
           onChange={(event, value) => {
             setCampus(value);
           }}
           value={campus}
+          autoComplete
         />
+        <div
+          className={`flex flex-col ${user.isVerified ? "visible" : "hidden"}`}
+        >
+          <Autocomplete
+            disablePortal
+            id={`editAdminVerification-${uniqueId}`}
+            options={["true", "false"]}
+            sx={{ width: "100%", marginTop: "1rem" }}
+            renderInput={(params) => (
+              <TextField {...params} label="Verification" />
+            )}
+            onChange={(event, value) => {
+              setVerification(value);
+            }}
+            value={verification}
+            autoComplete
+          />
+        </div>
       </div>
       <button
         className="btn btn-accent w-full md:w-1/3 xs:uppercase xs:mx-auto"
