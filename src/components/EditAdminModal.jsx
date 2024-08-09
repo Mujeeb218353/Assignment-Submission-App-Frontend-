@@ -19,7 +19,6 @@ const EditAdminModal = ({
     setAlert,
     user,
   } = useContext(GlobalContext);
-  const [editAdminBtn, setEditAdminBtn] = useState("Update");
   const [city, setCity] = useState(editAdmin.city || null);
   const [campus, setCampus] = useState(editAdmin.campus || null);
   const [verification, setVerification] = useState(
@@ -48,7 +47,6 @@ const EditAdminModal = ({
       });
       return;
     }
-    setEditAdminBtn("Updating...");
     document.getElementById(`editAdminModal-${editAdmin._id}`).close();
     editAdminCityOrCampus(
       editAdmin._id,
@@ -57,7 +55,6 @@ const EditAdminModal = ({
       verification === "true"
     );
     setEditAdmin({});
-    setEditAdminBtn("Update");
   };
 
   return (
@@ -75,8 +72,9 @@ const EditAdminModal = ({
             <TextField {...params} label="City" />
           )}
           onChange={(event, value) => {
-            handleCityChange(value);
             setCity(value);
+            setCampus(null);
+            handleCityChange(value);
           }}
           value={city}
           autoComplete
@@ -122,7 +120,7 @@ const EditAdminModal = ({
         className="btn btn-accent w-full md:w-1/3 xs:uppercase xs:mx-auto"
         onClick={handleLocationUpdate}
       >
-        {editAdminBtn}
+        Update
       </button>
     </div>
   );
