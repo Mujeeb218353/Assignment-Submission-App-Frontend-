@@ -15,7 +15,7 @@ const EditAdminModal = ({
     cities,
     handleCityChange,
     campuses,
-    editAdminCityOrCampus,
+    editAdminCityOrCampusOrVerification,
     setAlert,
     user,
   } = useContext(GlobalContext);
@@ -48,7 +48,7 @@ const EditAdminModal = ({
       return;
     }
     document.getElementById(`editAdminModal-${editAdmin._id}`).close();
-    editAdminCityOrCampus(
+    editAdminCityOrCampusOrVerification(
       editAdmin._id,
       city?._id,
       campus?._id,

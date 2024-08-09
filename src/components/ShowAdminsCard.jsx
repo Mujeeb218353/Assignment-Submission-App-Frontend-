@@ -79,7 +79,7 @@ const ShowAdminsCard = () => {
                   </div>
                 </div>
                 <div
-                  className={`mt-4 flex lg:justify-end w-full gap-4 justify-center flex-wrap`}
+                  className={`mt-4 flex lg:justify-end w-full gap-4 justify-evenly flex-wrap`}
                 >
                   <button
                     className="btn btn-success btn-outline"
@@ -160,7 +160,7 @@ const ShowAdminsCard = () => {
                     </div>
                   </dialog>
                 </div>
-                <hr className="my-4 border-gray-300" />
+                <hr className={`my-5 border-gray-300 ${user.isVerified ? "visible" : "hidden"}`} />
                 <div className={`${user.isVerified ? "visible" : "hidden"} grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4`}>
                   <div>
                   <h3 className="text-xl font-bold mb-2">Created By</h3>

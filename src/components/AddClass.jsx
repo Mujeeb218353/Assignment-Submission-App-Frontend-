@@ -107,7 +107,7 @@ const AddClass = () => {
           className="btn btn-accent w-3/4 sm:w-1/2 md:w-5/12 lg:w-4/12 xl:w-3/12 my-4"
           onClick={() => document.getElementById("addClassModal").showModal()}
         >
-          CREATE CLASS
+          ADD CLASS
         </button>
         <dialog id="addClassModal" className="modal">
           <div className="modal-box w-11/12 max-w-5xl">
@@ -207,7 +207,7 @@ const AddClass = () => {
                 options={
                   course
                     ? teachers.filter(
-                        (teacher) => teacher.course === course?._id
+                        (teacher) => teacher.course === course?._id && teacher.city === city?._id
                       )
                     : []
                 }

@@ -405,6 +405,10 @@ const AppContext = ({ children }) => {
       );
 
       setAllClasses([...allClasses, response.data.data]);
+      // setAllTeachers([
+      //   ...allTeachers.filter((teacher) => teacher._id !== response.data.data.teacher),
+      //   response.data.data.teacher
+      // ])
       setAlert({
         message: response.data.message || "Class Added Successfully",
         type: "success",
@@ -982,10 +986,10 @@ const AppContext = ({ children }) => {
     }
   }
 
-  const editAdminCityOrCampus = async (adminId, cityId, campusId, isVerified) => {
+  const editAdminCityOrCampusOrVerification = async (adminId, cityId, campusId, isVerified) => {
     try {
       const response = await axios.put(
-        `${import.meta.env.VITE_USERS_API}/admin/editAdminCityOrCampus/${adminId}`,
+        `${import.meta.env.VITE_USERS_API}/admin/editAdminCityOrCampusOrVerification/${adminId}`,
         {
           cityId,
           campusId,
@@ -1019,6 +1023,49 @@ const AppContext = ({ children }) => {
         }
       );
       setAllAdmins([...allAdmins.filter((admin) => admin._id !== adminId)]);
+      setAlert({ message: response.data.message, type: "success" });
+    } catch (error) {
+      console.log(error);
+      setAlert({ message: error.response.data.message, type: "error" });
+    }
+  }
+
+  const editTeacherVerification = async (teacherId, isVerified) => {
+    try {
+      const response = await axios.put(
+        `${import.meta.env.VITE_USERS_API}/admin/editTeacherVerification/${teacherId}`,
+        {
+          isVerified
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("my-accessToken")}`,
+          },
+        }
+      )
+      setAllTeachers([
+        ...allTeachers.filter((teacher) => teacher._id !== teacherId),
+        response.data.data
+      ]);
+      setAlert({ message: response.data.message, type: "success" });
+    }catch(error){
+      console.log(error);
+      setAlert({ message: error.response.data.message, type: "error" })
+    }
+  }
+
+  const deleteTeacher = async (teacherId) => {
+    console.log("Delete teacher");
+    try {
+      const response = await axios.delete(
+        `${import.meta.env.VITE_USERS_API}/admin/deleteTeacher/${teacherId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("my-accessToken")}`,
+          },
+        }
+      );
+      setAllTeachers([...allTeachers.filter((teacher) => teacher._id !== teacherId)]);
       setAlert({ message: response.data.message, type: "success" });
     } catch (error) {
       console.log(error);
@@ -1169,8 +1216,10 @@ const AppContext = ({ children }) => {
         deleteCourse,
         deleteCourseCity,
         deleteCourseCampus,
-        editAdminCityOrCampus,
+        editAdminCityOrCampusOrVerification,
         deleteAdmin,
+        editTeacherVerification,
+        deleteTeacher,
       }}
     >
       {children}

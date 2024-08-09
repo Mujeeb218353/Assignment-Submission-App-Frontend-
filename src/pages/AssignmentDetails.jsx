@@ -143,7 +143,7 @@ const AssignmentDetails = () => {
                               .showModal();
                           }}
                         >
-                          Assign Marks
+                          Update
                         </button>
                         <ThemeProvider theme={theme}>
                         <dialog
@@ -170,7 +170,7 @@ const AssignmentDetails = () => {
                             <div className="modal-action">
                               <div className="flex justify-end gap-4 w-full">
                                 <button
-                                  className="btn btn-ghost"
+                                  className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
                                   onClick={() => {
                                     document
                                       .getElementById(
@@ -184,10 +184,10 @@ const AssignmentDetails = () => {
                                     });
                                   }}
                                 >
-                                  Close
+                                  X
                                 </button>
                                 <button
-                                  className="btn btn-accent"
+                                  className="btn btn-accent w-full"
                                   onClick={handleUpdateMarks}
                                 >
                                   Update

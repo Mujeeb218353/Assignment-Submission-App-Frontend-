@@ -130,13 +130,13 @@ const AddAssignment = () => {
   return (
     <div className="flex flex-col justify-center items-center gap-4 w-full sm:3/4 md:w-1/2 m-auto">
       <button
-        className="btn btn-accent"
+        className="btn btn-accent w-3/4 sm:w-1/2 md:w-5/12 lg:w-4/12 xl:w-3/12 my-4 sm:uppercase"
         onClick={() => document.getElementById("create-assignment").showModal()}
       >
-        Create Assignment
+        Add Assignment
       </button>
       <dialog id="create-assignment" className="modal">
-        <div className="modal-box flex flex-col justify-center items-center gap-4">
+        <div className="modal-box flex flex-col justify-center items-center gap-4 w-11/12 max-w-5xl">
           <h1 className="text-xl font-bold">Create Assignment</h1>
           <TextField
             id="title"
@@ -192,7 +192,7 @@ const AddAssignment = () => {
           />
           <div className="flex items-center justify-end gap-4 w-full">
             <button
-              className="btn"
+              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
               onClick={() => {
                 document.getElementById("create-assignment").close();
                 setAssignment({
@@ -202,9 +202,9 @@ const AddAssignment = () => {
                 });
               }}
             >
-              Cancel
+              X
             </button>
-            <button className="btn btn-accent w-1/2" onClick={handleSubmit}>
+            <button className="btn btn-accent w-full sm:w-1/2 lg:1/3 m-auto" onClick={handleSubmit}>
               Create
             </button>
           </div>
