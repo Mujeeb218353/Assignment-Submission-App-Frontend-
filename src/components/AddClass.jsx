@@ -150,6 +150,9 @@ const AddClass = () => {
                 renderInput={(params) => <TextField {...params} label="City" />}
                 onChange={(event, value) => {
                   handleCityChange(value);
+                  setCampus(null)
+                  setCourse(null)
+                  setTeacher(null)
                   setCity(value);
                 }}
                 value={city}
@@ -170,6 +173,8 @@ const AddClass = () => {
                 )}
                 onChange={(event, value) => {
                   handleCampusChange(value);
+                  setCourse(null)
+                  setTeacher(null)
                   setCampus(value);
                 }}
                 value={campus}
@@ -196,6 +201,7 @@ const AddClass = () => {
                 )}
                 onChange={(event, value) => {
                   handleCourseChange(value);
+                  setTeacher(null)
                   setCourse(value);
                 }}
                 value={course}

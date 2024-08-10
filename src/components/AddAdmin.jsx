@@ -247,6 +247,7 @@ const AddAdmin = () => {
                   )}
                   onChange={(event, value) => {
                     handleCityChange(value);
+                    setCampus(null)
                     setCity(value);
                   }}
                   value={city}
@@ -261,14 +262,13 @@ const AddAdmin = () => {
                   }
                   getOptionLabel={(option) => option.name || "Unknown Campus"}
                   isOptionEqualToValue={(option, value) =>
-                    option.id === value.id
+                    option._id === value._id
                   }
                   sx={{ width: "100%" }}
                   renderInput={(params) => (
                     <TextField {...params} label="Campus" />
                   )}
                   onChange={(event, value) => {
-                    handleCampusChange(value);
                     setCampus(value);
                   }}
                   value={campus}

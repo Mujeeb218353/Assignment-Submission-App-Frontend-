@@ -6,7 +6,7 @@ const ShowTeachersCard = () => {
   const { allTeachers, user, deleteTeacher } = useContext(GlobalContext);
   const [editTeacher, setEditTeacher] = useState({})
 
-  console.log(allTeachers);
+  // console.log(allTeachers);
   
 
   return (
@@ -86,7 +86,7 @@ const ShowTeachersCard = () => {
                     <p>
                       <span className="font-bold">Campuses</span>
                       {teacher.campus.length > 0 ? teacher.instructorOfClass.map((campus, id) => {
-                        console.log(campus);
+                        // console.log(campus);
                         
                         return <li key={teacher._id + campus._id + id}>
                           {campus.campus?.name} - {campus.campus.city.cityName}
@@ -119,7 +119,7 @@ const ShowTeachersCard = () => {
                     });
                     }}>Edit</button>
                   <dialog id={`editTeacherModal-${teacher._id}`} className="modal">
-                    <div className="modal-box w-11/12 max-w-5xl">
+                    <div className="modal-box">
                       <EditTeacherModal
                         editTeacher={editTeacher}
                         setEditTeacher={setEditTeacher}

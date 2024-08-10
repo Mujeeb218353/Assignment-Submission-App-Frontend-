@@ -285,7 +285,7 @@ const AddTeacher = () => {
                   options={cities}
                   getOptionLabel={(option) => option.cityName || "Unknown City"}
                   isOptionEqualToValue={(option, value) =>
-                    option.id === value.id
+                    option._id === value._id
                   }
                   sx={{ width: "100%" }}
                   renderInput={(params) => (
@@ -293,6 +293,8 @@ const AddTeacher = () => {
                   )}
                   onChange={(event, value) => {
                     handleCityChange(value);
+                    setCampus(null)
+                    setCourse(null)
                     setCity(value);
                   }}
                   value={city}
@@ -315,6 +317,7 @@ const AddTeacher = () => {
                   )}
                   onChange={(event, value) => {
                     handleCampusChange(value);
+                    setCourse(null)
                     setCampus(value);
                   }}
                   value={campus}

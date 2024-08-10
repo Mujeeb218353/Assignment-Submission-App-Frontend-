@@ -56,7 +56,7 @@ const AddCity = () => {
             >
               X
             </button>
-            <button className="btn btn-accent w-full xs:w-1/3 uppercase" onClick={handleAddCity}>
+            <button className="btn btn-accent w-full uppercase" onClick={handleAddCity}>
               Add City
             </button>
           </div>

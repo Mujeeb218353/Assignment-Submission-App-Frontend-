@@ -1055,7 +1055,6 @@ const AppContext = ({ children }) => {
   }
 
   const deleteTeacher = async (teacherId) => {
-    console.log("Delete teacher");
     try {
       const response = await axios.delete(
         `${import.meta.env.VITE_USERS_API}/admin/deleteTeacher/${teacherId}`,
@@ -1066,6 +1065,56 @@ const AppContext = ({ children }) => {
         }
       );
       setAllTeachers([...allTeachers.filter((teacher) => teacher._id !== teacherId)]);
+      setAlert({ message: response.data.message, type: "success" });
+    } catch (error) {
+      console.log(error);
+      setAlert({ message: error.response.data.message, type: "error" });
+    }
+  }
+
+  const editClass = async (classId, className, batch, enrollmentKey, city, campus, course, teacher) => {
+    try {
+      const response = await axios.put(
+        `${import.meta.env.VITE_USERS_API}/admin/editClass/${classId}`,
+        {
+          className, 
+          batch, 
+          enrollmentKey,
+          cityId: city._id, 
+          campusId: campus._id,  
+          courseId: course._id,
+          teacherId: teacher._id
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("my-accessToken")}`,
+          },
+        }
+      )
+      setAllClasses([
+        ...allClasses.filter((class_s)=> class_s._id !== classId),
+        response.data.data
+      ]);
+      console.log(response.data.data);
+      
+      setAlert({ message: response.data.message, type: "success" });
+    }catch(error){
+      console.log(error);
+      setAlert({ message: error.response.data.message, type: "error" })
+    }
+  }
+
+  const deleteClass = async (classId) => {
+    try {
+      const response = await axios.delete(
+        `${import.meta.env.VITE_USERS_API}/admin/deleteClass/${classId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("my-accessToken")}`,
+          },
+        }
+      );
+      setAllClasses([...allClasses.filter((class_s)=> class_s._id !== classId)]);
       setAlert({ message: response.data.message, type: "success" });
     } catch (error) {
       console.log(error);
@@ -1087,10 +1136,10 @@ const AppContext = ({ children }) => {
     const currentTime = Date.now();
     const timeUntilExpiration = expirationTime - currentTime;
     const refreshTimeout = timeUntilExpiration - 5 * 60 * 1000;
-    console.log("Current time:", currentTime);
-    console.log("Expiration time:", expirationTime);
-    console.log("Time until expiration:", timeUntilExpiration);
-    console.log("Refresh timeout:", refreshTimeout);
+    // console.log("Current time:", currentTime);
+    // console.log("Expiration time:", expirationTime);
+    // console.log("Time until expiration:", timeUntilExpiration);
+    // console.log("Refresh timeout:", refreshTimeout);
     const handleRefreshAccessToken = async () => {
       try {
         if (refreshTimeout >= 0) {
@@ -1220,6 +1269,8 @@ const AppContext = ({ children }) => {
         deleteAdmin,
         editTeacherVerification,
         deleteTeacher,
+        editClass,
+        deleteClass,
       }}
     >
       {children}

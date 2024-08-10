@@ -140,14 +140,14 @@ const Login = () => {
                   </RadioGroup>
                 </FormControl>
               </ThemeProvider>
-              <div className="flex items-center justify-between">
+              {/* <div className="flex items-center justify-between">
                 <Link
                   to="/forgotPassword"
                   className="text-sm font-medium link link-accent"
                 >
                   Forgot password?
                 </Link>
-              </div>
+              </div> */}
               <button className="btn btn-accent w-full" type="submit">
                 LOGIN
               </button>

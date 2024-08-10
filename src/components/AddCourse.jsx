@@ -69,6 +69,7 @@ const AddCourse = () => {
             renderInput={(params) => <TextField {...params} label="City" />}
             onChange={(event, value) => {
               handleCityChange(value);
+              setCampus(null)
               setCity(value);
             }}
             value={city}
@@ -107,7 +108,7 @@ const AddCourse = () => {
             </button>
             <button
               onClick={handleAddCourse}
-              className="btn btn-accent w-full xs:w-1/3 uppercase"
+              className="btn btn-accent w-full uppercase"
             >
               Add Course
             </button>

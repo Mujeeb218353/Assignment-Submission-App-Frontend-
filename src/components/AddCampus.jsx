@@ -79,7 +79,7 @@ const AddCampus = () => {
               X
             </button>
             <button
-              className="btn btn-accent w-full xs:w-1/3 uppercase"
+              className="btn btn-accent w-full uppercase"
               onClick={handleAddCampus}
             >
               Add Campus

@@ -42,7 +42,7 @@ const EditTeacherModal = ({
         autoComplete
       />
       <button
-        className="btn btn-accent w-full md:w-1/3 xs:uppercase xs:mx-auto"
+        className="btn btn-accent w-full xs:uppercase xs:mx-auto"
         onClick={handleTeacherUpdate}
       >
         Update
