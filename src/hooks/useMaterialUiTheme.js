@@ -6,7 +6,7 @@ const useMaterialUIThemeChanger = () => {
     const { theme } = useContext(GlobalContext);
     return createTheme({
         palette: {
-            mode: theme==="light" ? "light" : "dark",
+            mode: theme === "light" ? "light" : "dark",
             primary: {
                 main: '#3b82f6',
             },

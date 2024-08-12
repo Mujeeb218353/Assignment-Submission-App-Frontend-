@@ -28,11 +28,9 @@ const AppContext = ({ children }) => {
   const [allAdmins, setAllAdmins] = useState([]);
   const [allClasses, setAllClasses] = useState([]);
   const [assignmentId, setAssignmentId] = useState("");
-  const [studentsSubmittedAssignment, setStudentsSubmittedAssignment] =
-    useState([]);
+  const [studentsSubmittedAssignment, setStudentsSubmittedAssignment] = useState([]);
   const [classes, setClasses] = useState([]);
-  const [studentsNotSubmittedAssignment, setStudentsNotSubmittedAssignment] =
-    useState([]);
+  const [studentsNotSubmittedAssignment, setStudentsNotSubmittedAssignment] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -1136,10 +1134,10 @@ const AppContext = ({ children }) => {
     const currentTime = Date.now();
     const timeUntilExpiration = expirationTime - currentTime;
     const refreshTimeout = timeUntilExpiration - 5 * 60 * 1000;
-    // console.log("Current time:", currentTime);
-    // console.log("Expiration time:", expirationTime);
-    // console.log("Time until expiration:", timeUntilExpiration);
-    // console.log("Refresh timeout:", refreshTimeout);
+    console.log("Current time:", currentTime);
+    console.log("Expiration time:", expirationTime);
+    console.log("Time until expiration:", timeUntilExpiration);
+    console.log("Refresh timeout:", refreshTimeout);
     const handleRefreshAccessToken = async () => {
       try {
         if (refreshTimeout >= 0) {
@@ -1178,18 +1176,20 @@ const AppContext = ({ children }) => {
       })
       .catch((error) => {
         setAlert({
-          message: "Session Expired. Please Login Again",
+          message: error.response.data.message === "Refresh token is expired or used" ? error.response.data.message : "Session Expired. Please Login Again",
           type: "error",
         });
-        setTimeout(() => {
-          localStorage.removeItem("my-accessToken");
-          localStorage.removeItem("my-refreshToken");
-          localStorage.removeItem("my-role");
-          setUser(null);
-          setAlert(null);
-          navigate("/login");
-        }, 2000);
-        // console.log("Error: ",error);
+        if(error.response.data.message === "Refresh token is expired or used"){
+          setTimeout(() => {
+            localStorage.removeItem("my-accessToken");
+            localStorage.removeItem("my-refreshToken");
+            localStorage.removeItem("my-role");
+            setUser(null);
+            setAlert(null);
+            navigate("/login");
+          }, 2000);
+        }
+        console.log("Error: ",error);
       });
   }, []);
 
