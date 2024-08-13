@@ -20,8 +20,8 @@ const EnrollInClass = () => {
 
   return (
     <ThemeProvider theme={useMaterialUIThemeChanger()}>
-    <div className="flex flex-col justify-center items-center gap-4 w-full sm:3/4 md:w-1/2 m-auto h-96">
-      <h1 className="text-3xl font-bold">Enroll in Class</h1>
+    <div className="flex flex-col justify-center items-center gap-4 sm:w-3/4 md:w-1/2 my-20 mx-auto">
+      <h1 className="text-2xl font-bold">Enroll in Class</h1>
       <TextField
         id="enrollmentKey"
         label="Enrollment Key"

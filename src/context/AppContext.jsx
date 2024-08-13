@@ -50,7 +50,7 @@ const AppContext = ({ children }) => {
           withCredentials: true,
         }
       );
-      if (localStorage.getItem("my-role") === "student") {
+      if (localStorage.getItem("my-role") === "student" || role === "student") {
         localStorage.setItem("my-accessToken", response.data.data.accessToken);
         localStorage.setItem(
           "my-refreshToken",
@@ -1140,12 +1140,50 @@ const AppContext = ({ children }) => {
     }
   }
 
-  const editStudentVerification = async (studentId) => {
-
+  const editStudentVerification = async (studentId, verification) => {
+    console.log(studentId, verification);
+    console.log(typeof verification);
+    try {
+      const response = await axios.put(
+        `${import.meta.env.VITE_USERS_API}/admin/editStudentVerification/${studentId}`,
+        {
+          isVerified: verification
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("my-accessToken")}`,
+          },
+        }
+      )
+      setAllStudents([
+        ...allStudents.filter((student) => student._id !== studentId),
+        response.data.data
+      ]);
+      setAlert({ message: response.data.message, type: "success" });
+    }catch(error){
+      console.log(error);
+      setAlert({ message: error.response.data.message, type: "error" })
+    }
   }
 
   const deleteStudent = async (studentId) => {
-
+    console.log(studentId);
+    try {
+      const response = await axios.delete(
+        `${import.meta.env.VITE_USERS_API}/admin/deleteStudent/${studentId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("my-accessToken")}`,
+          },
+        }
+      );
+      setAllStudents([...allStudents.filter((student) => student._id !== studentId)]);
+      setAlert({ message: response.data.message, type: "success" });
+    } catch (error) {
+      console.log(error);
+      setAlert({ message: error.response.data.message, type: "error" });
+    }
+    
   }
   useEffect(() => {
     const accessToken = localStorage.getItem("my-accessToken");

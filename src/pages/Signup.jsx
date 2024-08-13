@@ -294,6 +294,8 @@ const Signup = () => {
                 renderInput={(params) => <TextField {...params} label="City" />}
                 onChange={(event, value) => {
                   handleCityChange(value);
+                  setCampus(null);
+                  setCourse(null);
                   setCity(value);
                 }}
                 value={city}
@@ -314,6 +316,7 @@ const Signup = () => {
                 )}
                 onChange={(event, value) => {
                   handleCampusChange(value);
+                  setCourse(null);
                   setCampus(value);
                 }}
                 value={campus}
