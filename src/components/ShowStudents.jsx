@@ -148,7 +148,9 @@ const ShowStudents = () => {
                     <button
                       className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
                       onClick={() => {
-                        document.getElementById(`editStudentModal-${student._id}`).close();
+                        document
+                          .getElementById(`editStudentModal-${student._id}`)
+                          .close();
                         setVerification("false");
                       }}
                     >
@@ -179,10 +181,18 @@ const ShowStudents = () => {
                     <button
                       className="btn btn-error mx-auto"
                       onClick={() => {
-                        deleteStudent(student._id);
                         document
                           .getElementById(`deleteStudentModal-${student._id}`)
                           .close();
+                        if (student.enrolledInClass) {
+                          deleteStudent(student._id);
+                        } else {
+                          setAlert({
+                            message:
+                              "Student is enrolled in any class and cannot be deleted",
+                            type: "error",
+                          });
+                        }
                       }}
                     >
                       Delete
@@ -193,7 +203,6 @@ const ShowStudents = () => {
                         document
                           .getElementById(`deleteStudentModal-${student._id}`)
                           .close();
-                        // setEditTeacher({});
                       }}
                     >
                       ✕
