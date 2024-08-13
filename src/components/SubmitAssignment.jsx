@@ -38,13 +38,13 @@ const SubmitAssignment = ({ assignmentId }) => {
         <div className="modal-action">
           <div className="flex justify-end gap-4 w-full">
             <button
-              className="btn btn-ghost"
+              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
               onClick={() => {
                 document.getElementById("submit-assignment-modal").close();
                 setLink("");
               }}
             >
-              Close
+              X
             </button>
             <button className="btn btn-accent" onClick={handleSubmitAssignment}>
               Submit

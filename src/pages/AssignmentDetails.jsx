@@ -4,7 +4,6 @@ import { TextField } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import { ThemeProvider } from "@emotion/react";
 import useMaterialUIThemeChanger from "../hooks/useMaterialUiTheme";
-import { Gauge, gaugeClasses } from "@mui/x-charts/Gauge";
 
 const AssignmentDetails = () => {
   const theme = useMaterialUIThemeChanger();
@@ -79,7 +78,7 @@ const AssignmentDetails = () => {
     document.getElementById("edit-assignment-marks-modal").close();
   };
 
-  const percentage = (studentsSubmittedAssignment?.submittedBy?.length / mergedStudents?.length) * 100;
+  const percentage = (studentsSubmittedAssignment?.submittedBy?.length / mergedStudents?.length) * 100 || 0;
   percentage-50
 
 
@@ -110,7 +109,7 @@ const AssignmentDetails = () => {
             </div>
         </div>
         </div>
-        <div className="overflow-x-auto shadow-xl rounded-md w-full md:w-[80%] lg:w-[70%]">
+        <div className="overflow-x-auto shadow-xl rounded-md w-full">
           <table className="table">
             <thead>
               <tr className="text-center">

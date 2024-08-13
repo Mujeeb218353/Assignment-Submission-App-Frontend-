@@ -27,6 +27,7 @@ const AppContext = ({ children }) => {
   const [allTeachers, setAllTeachers] = useState([]);
   const [allAdmins, setAllAdmins] = useState([]);
   const [allClasses, setAllClasses] = useState([]);
+  const [allStudents, setAllStudents] = useState([])
   const [assignmentId, setAssignmentId] = useState("");
   const [studentsSubmittedAssignment, setStudentsSubmittedAssignment] = useState([]);
   const [classes, setClasses] = useState([]);
@@ -104,6 +105,7 @@ const AppContext = ({ children }) => {
         getAllTeachers();
         getAllAdmins();
         getAllClasses();
+        getAllStudents();
       }
       if (localStorage.getItem("my-role") === "student") {
         getStudentClass();
@@ -1120,6 +1122,31 @@ const AppContext = ({ children }) => {
     }
   }
 
+  const getAllStudents = async () => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_USERS_API}/admin/getAllStudents`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("my-accessToken")}`,
+          },
+        }
+      )
+      setAllStudents(response.data.data);
+      console.log(response.data.data);
+    } catch (error) {
+      console.log(error);
+      setAlert({message: error.response.data.message, type: "error"})
+    }
+  }
+
+  const editStudentVerification = async (studentId) => {
+
+  }
+
+  const deleteStudent = async (studentId) => {
+
+  }
   useEffect(() => {
     const accessToken = localStorage.getItem("my-accessToken");
     const role = localStorage.getItem("my-role");
@@ -1160,6 +1187,7 @@ const AppContext = ({ children }) => {
               getAllTeachers();
               getAllAdmins();
               getAllClasses();
+              getAllStudents();
             }
             if (role === "student" && accessToken) {
               getStudentClass();
@@ -1235,6 +1263,9 @@ const AppContext = ({ children }) => {
         setAllAdmins,
         allClasses,
         setAllClasses,
+        allStudents,
+        setAllStudents,
+
         addCity,
         addCampus,
         addCourse,
@@ -1271,6 +1302,8 @@ const AppContext = ({ children }) => {
         deleteTeacher,
         editClass,
         deleteClass,
+        editStudentVerification,
+        deleteStudent,
       }}
     >
       {children}

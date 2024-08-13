@@ -15,10 +15,10 @@ const Assignment = () => {
   const [assignmentLink, setAssignmentLink] = useState("");
 
   return (
-    <div className="w-full flex flex-col justify-center items-center gap-4">
+    <div className="w-full flex flex-col justify-center items-center gap-4 pt-4">
       <div className="w-full flex flex-col justify-center items-center gap-4">
         <h2 className="text-xl font-semibold text-center">Submissions</h2>
-        <div className="overflow-x-auto shadow-xl rounded-md w-full md:w-[80%] lg:w-[70%]">
+        <div className="overflow-x-auto shadow-xl rounded-md w-full">
           <table className="table w-full">
             <thead>
               <tr className="text-center">
@@ -127,11 +127,54 @@ const Assignment = () => {
                           Date.now() > new Date(assignment.lastDate).getTime()
                         }
                         onClick={() =>
-                          deleteSubmittedAssignment(assignment._id)
+                          document
+                            .getElementById(
+                              `deleteSubmittedAssignmentModal-${assignment._id}`
+                            )
+                            .showModal()
                         }
                       >
                         Delete
                       </button>
+                      <dialog
+                        id={`deleteSubmittedAssignmentModal-${assignment._id}`}
+                        className="modal"
+                      >
+                        <div className="modal-box">
+                          <div className="flex flex-col gap-4 items-center justify-center mt-4">
+                            <p className="font-bold">
+                              Are you sure want to delete?
+                            </p>
+                            <button
+                              className="btn btn-error"
+                              onClick={() => {
+                                deleteSubmittedAssignment(assignment._id);
+                                document
+                                  .getElementById(
+                                    `deleteSubmittedAssignmentModal-${assignment._id}`
+                                  )
+                                  .close();
+                              }}
+                            >
+                              Delete
+                            </button>
+                            <div className="modal-action">
+                              <button
+                                className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                                onClick={() =>
+                                  document
+                                    .getElementById(
+                                      `deleteSubmittedAssignmentModal-${assignment._id}`
+                                    )
+                                    .close()
+                                }
+                              >
+                                ✕
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </dialog>
                     </td>
                   </tr>
                 ))
@@ -150,7 +193,7 @@ const Assignment = () => {
         <h2 className="text-xl font-semibold text-center">
           Pending Submissions
         </h2>
-        <div className="overflow-x-auto shadow-xl rounded-md w-full md:w-[80%] lg:w-[70%]">
+        <div className="overflow-x-auto shadow-xl rounded-md w-full">
           <table className="table w-full">
             <thead>
               <tr className="text-center">

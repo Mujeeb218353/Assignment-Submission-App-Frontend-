@@ -10,7 +10,7 @@ const ShowTeachersCard = () => {
   
 
   return (
-    <div className=" mx-[-1.5rem] md:mx-auto mt-8 w-full md:w-auto">
+    <div className="mx-[-1.5rem] md:mx-auto mt-8 w-full md:w-auto">
       {/* <h1 className="text-3xl font-bold mb-8 text-center">Teachers</h1> */}
       {allTeachers.length === 0 ? (
         <div className="text-center text-xl mt-8">Teachers not found</div>

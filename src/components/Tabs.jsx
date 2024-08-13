@@ -17,6 +17,7 @@ import AddClass from "./AddClass";
 import Course from "./Course";
 import EnrollInClass from "./EnrollInClass";
 import Assignment from "./Assignment";
+import ShowStudents from "./ShowStudents";
 
 const Admin = () => {
   const { user } = useContext(GlobalContext);
@@ -27,6 +28,7 @@ const Admin = () => {
     { label: "Admins", value: "3", content: <AddAdmin /> },
     { label: "Teachers", value: "2", content: <AddTeacher /> },
     { label: "Classes", value: "4", content: <AddClass /> },
+    { label: "Students", value: "5", content: <ShowStudents /> },
     // { label: "Attendance", value: "5", content: <AddAttendance /> },
   ];
 

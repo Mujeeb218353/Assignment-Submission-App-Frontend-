@@ -33,8 +33,8 @@ const EditSubmittedAssignment = ({ assignmentId, assignmentLink, setAssignmentLi
         />
         <div className="modal-action">
           <div className="flex justify-end gap-4 w-full">
-            <button className="btn btn-ghost" onClick={() => document.getElementById("edit-assignment-modal").close()}>
-              Close
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={() => document.getElementById("edit-assignment-modal").close()}>
+              X
             </button>
             <button className="btn btn-accent" onClick={handleSubmitAssignment}>
               Update
