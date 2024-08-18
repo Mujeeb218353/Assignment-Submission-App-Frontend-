@@ -1,10 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useId } from "react";
 import { GlobalContext } from "../context/AppContext";
 import { TextField, Autocomplete } from "@mui/material";
 
 const TeacherProfile = () => {
   const { user, setAlert, updateProfilePicture, updateProfileDetails } =
     useContext(GlobalContext);
+    const uniqueId = useId();
   const [profilePicture, setProfilePicture] = useState(user?.profile);
   const [profile, setProfile] = useState({});
   const [open, setOpen] = useState(false);
@@ -178,8 +179,8 @@ const TeacherProfile = () => {
             <p className="font-semibold">Campus(es)</p>
             <p>
               {
-                user?.campus?.map((campus)=>(
-                  <li key={campus._id}>{campus.name}</li>
+                user?.campus?.map((campus,index)=>(
+                  <li key={`${campus._id+index}-${uniqueId}`}>{campus.name}</li>
                 )) 
                 || 
                 "N/A"
