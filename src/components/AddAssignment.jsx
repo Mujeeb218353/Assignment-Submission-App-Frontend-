@@ -30,6 +30,12 @@ const AddAssignment = () => {
     lastDate: "",
   });
 
+  function convertLocalTimeToUTCFormatted(dateString) {
+    const localDateTime = new Date(`${dateString} 23:59:59.999`);
+    const utcFormatted = localDateTime.toISOString().replace('T', ' ').replace('Z', '');
+    return utcFormatted;
+  }
+
   useEffect(() => {
     getClasses();
   }, []);
@@ -69,7 +75,7 @@ const AddAssignment = () => {
     createAssignment({
       title: assignment.title,
       description: assignment.description,
-      lastDate: `${assignment.lastDate} 23:59:59.999`,
+      lastDate: convertLocalTimeToUTCFormatted(assignment.lastDate),
       classId: assignment.class,
     }).then(() => {
       setAssignment({
@@ -81,10 +87,9 @@ const AddAssignment = () => {
       });
     });
   };
-
+  
   const handleEditSubmit = (e) => {
     e.preventDefault();
-
     if (!editAssignment.title) {
       setAlert({ message: "Title is required", type: "error" });
       return;
@@ -109,14 +114,14 @@ const AddAssignment = () => {
     }
 
     document.getElementById("edit-assignment").close();
-
+    
     editCreatedAssignment({
       _id: editAssignment._id,
       title: editAssignment.title,
       description: editAssignment.description,
       lastDate: editAssignment.lastDate.includes("T")
         ? editAssignment.lastDate
-        : `${editAssignment.lastDate} 23:59:59.999`,
+        : convertLocalTimeToUTCFormatted(editAssignment.lastDate),
     }).then(() => {
       setEditAssignment({
         _id: "",
@@ -258,6 +263,8 @@ const AddAssignment = () => {
                       onClick={() => {
                         document.getElementById("edit-assignment").showModal();
                         setEditAssignment(assignment);
+                        
+                        
                       }}
                     >
                       Edit
