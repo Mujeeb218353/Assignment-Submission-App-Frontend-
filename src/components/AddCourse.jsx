@@ -30,6 +30,7 @@ const AddCourse = () => {
       return;
     }
 
+    document.getElementById("addCourseModal").close()
     addCourse({
       name: courseName,
       cityId: city?._id,
@@ -38,7 +39,6 @@ const AddCourse = () => {
       setCourseName("");
       setCity(null);
       setCampus(null);
-      document.getElementById("addCourseModal").close()
     });
   };
 
