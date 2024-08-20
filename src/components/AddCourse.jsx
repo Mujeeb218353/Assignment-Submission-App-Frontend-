@@ -5,11 +5,14 @@ import { TextField, Autocomplete } from "@mui/material";
 const AddCourse = () => {
   const { setAlert, user, cities, handleCityChange, campuses, addCourse } =
     useContext(GlobalContext);
+  const [addCourseBtnText, setAddCourseBtnText] = useState("Add Course");
   const [courseName, setCourseName] = useState("");
   const [city, setCity] = useState(null);
   const [campus, setCampus] = useState(null);
 
   const handleAddCourse = () => {
+    setAddCourseBtnText("Adding Course...")
+
     if (!courseName) {
       setAlert({ message: "Course name is required", type: "error" });
       return;
@@ -30,15 +33,17 @@ const AddCourse = () => {
       return;
     }
 
-    document.getElementById("addCourseModal").close()
     addCourse({
       name: courseName,
       cityId: city?._id,
       campusId: campus?._id,
     }).then(() => {
+      setAddCourseBtnText("Course Added");
       setCourseName("");
       setCity(null);
       setCampus(null);
+      document.getElementById("addCourseModal").close()
+      setAddCourseBtnText("Add Course");
     });
   };
 
@@ -110,7 +115,7 @@ const AddCourse = () => {
               onClick={handleAddCourse}
               className="btn btn-accent w-full uppercase"
             >
-              Add Course
+              {addCourseBtnText}
             </button>
           </div>
         </div>
