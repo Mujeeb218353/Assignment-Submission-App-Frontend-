@@ -1,13 +1,26 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { GlobalContext } from "../context/AppContext";
 import { TextField, Autocomplete } from "@mui/material";
 
 const AddCourse = () => {
-  const { setAlert, user, cities, handleCityChange, campuses, addCourse } =
-    useContext(GlobalContext);
+  const {
+    setAlert,
+    user,
+    cities,
+    handleCityChange,
+    campuses,
+    addCourse,
+    handleCampusChange,
+    courses,
+  } = useContext(GlobalContext);
   const [courseName, setCourseName] = useState("");
   const [city, setCity] = useState(null);
   const [campus, setCampus] = useState(null);
+  console.log(courses);
+
+  useEffect(() => {
+    handleCampusChange();
+  }, []);
 
   const handleAddCourse = () => {
     if (!courseName) {
@@ -30,6 +43,8 @@ const AddCourse = () => {
       return;
     }
 
+    document.getElementById("addCourseModal").close();
+    
     addCourse({
       name: courseName,
       cityId: city?._id,
@@ -38,14 +53,7 @@ const AddCourse = () => {
       setCourseName("");
       setCity(null);
       setCampus(null);
-      document.getElementById("addCourseModal").close()
     });
-  };
-
-  const isOptionEqualToValue = (option, value) => option._id === value._id;
-
-  const getOptionLabel = (option) => {
-    return option.cityName || "Unknown City";
   };
 
   return (
@@ -63,13 +71,13 @@ const AddCourse = () => {
             disablePortal
             id="cities"
             options={cities}
-            getOptionLabel={getOptionLabel}
-            isOptionEqualToValue={isOptionEqualToValue}
+            getOptionLabel={(option) => option.cityName || "Unknown City"}
+            isOptionEqualToValue={(option, value) => option._id === value._id}
             sx={{ width: "100%" }}
             renderInput={(params) => <TextField {...params} label="City" />}
             onChange={(event, value) => {
               handleCityChange(value);
-              setCampus(null)
+              setCampus(null);
               setCity(value);
             }}
             value={city}
@@ -79,29 +87,35 @@ const AddCourse = () => {
             id="campuses"
             options={campuses.filter((campus) => campus.city === city?._id)}
             getOptionLabel={(option) => option.name || "Unknown Campus"}
-            isOptionEqualToValue={isOptionEqualToValue}
+            isOptionEqualToValue={(option, value) => option._id === value._id}
             sx={{ width: "100%" }}
             renderInput={(params) => <TextField {...params} label="Campus" />}
             onChange={(event, value) => setCampus(value)}
             value={campus}
           />
-          <TextField
+          <Autocomplete
+            freeSolo
+            disablePortal
             id="courseName"
-            label="Course"
-            type="text"
-            className="w-full"
-            placeholder="Enter Course Name"
-            onChange={(e) => setCourseName(e.target.value)}
+            options={courses.map((course) => course.name)}
+            getOptionLabel={(option) => option}
+            isOptionEqualToValue={(option, value) => option === value}
+            sx={{ width: "100%" }}
+            renderInput={(params) => <TextField {...params} label="Course" onChange={(event) => setCourseName(event.target.value)}/>}
+            onInputChange={(event, newInputValue) => {
+              setCourseName(newInputValue);
+            }}
+            onChange={(event, value) => setCourseName(value)}
             value={courseName}
           />
           <div className="modal-action">
             <button
               className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
               onClick={() => {
-                document.getElementById("addCourseModal").close()
-                setCourseName("")
-                setCity(null)
-                setCampus(null)
+                document.getElementById("addCourseModal").close();
+                setCourseName("");
+                setCity(null);
+                setCampus(null);
               }}
             >
               X

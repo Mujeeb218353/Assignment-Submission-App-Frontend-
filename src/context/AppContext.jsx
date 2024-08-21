@@ -905,6 +905,7 @@ const AppContext = ({ children }) => {
           course._id === data.courseId ? { ...course, name: response.data.data.name } : course
         )
       );
+      handleCampusChange();
       setAlert({ message: response.data.message, type: "success" });
     } catch (error) {
       setAlert({ message: error.response.data.message, type: "error" });
@@ -1185,6 +1186,7 @@ const AppContext = ({ children }) => {
     }
     
   }
+  
   useEffect(() => {
     const accessToken = localStorage.getItem("my-accessToken");
     const role = localStorage.getItem("my-role");
