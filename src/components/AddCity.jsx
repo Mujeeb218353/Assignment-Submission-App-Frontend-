@@ -1,10 +1,16 @@
 import { GlobalContext } from "../context/AppContext";
-import { useContext, useState } from "react";
-import TextField from "@mui/material/TextField";
+import { useContext, useState, useEffect } from "react";
+import { Autocomplete, TextField } from "@mui/material";
 
 const AddCity = () => {
-  const { setAlert, user, addCity } = useContext(GlobalContext);
+  const { setAlert, user, addCity, cities, getCity } = useContext(GlobalContext);
   const [cityName, setCityName] = useState("");
+
+  console.log(cities);
+  
+  useEffect(() => {
+    getCity()
+  }, []);
 
   const handleAddCity = () => {
     if (!cityName) {
@@ -34,16 +40,22 @@ const AddCity = () => {
       >
         ADD CITY
       </button>
-      <dialog id="addCityModal" className="modal">
-        <div className="modal-box flex flex-col gap-4">
-          <h3 className="font-bold text-lg text-center">Add City</h3>
-          <TextField
-            id="city"
-            label="City"
-            type="text"
-            className="w-full"
-            placeholder="Enter City"
-            onChange={(e) => setCityName(e.target.value)}
+      <dialog id="addCityModal" className={`modal`}>
+        <div className={`modal-box flex flex-col gap-4 h-[50vh] justify-center`}>
+          <h3 className="font-bold text-lg text-center uppercase">Add City</h3>
+          <Autocomplete
+            freeSolo
+            disablePortal
+            id="cities"
+            options={cities.map((city) => city.cityName)}
+            getOptionLabel={(option) => option}
+            isOptionEqualToValue={(option, value) => option === value}
+            sx={{ width: "100%" }}
+            renderInput={(params) => <TextField {...params} label="City" onChange={(event) => setCityName(event.target.value)}/>}
+            onInputChange={(event, newInputValue) => {
+              setCityName(newInputValue);
+            }}
+            onChange={(event, value) => setCityName(value)}
             value={cityName}
           />
           <div className="modal-action">
@@ -56,7 +68,9 @@ const AddCity = () => {
             >
               X
             </button>
-            <button className="btn btn-accent w-full uppercase" onClick={handleAddCity}>
+            <button 
+              className="btn btn-accent w-full uppercase" 
+              onClick={handleAddCity}>
               Add City
             </button>
           </div>

@@ -1,16 +1,15 @@
 import { Autocomplete, TextField } from "@mui/material";
 import { GlobalContext } from "../context/AppContext";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 
 const AddCampus = () => {
-  const { setAlert, user, cities, addCampus } = useContext(GlobalContext);
+  const { setAlert, user, cities, addCampus, handleCityChange, campuses } = useContext(GlobalContext);
   const [city, setCity] = useState(null);
   const [campusName, setCampusName] = useState("");
 
-  const isOptionEqualToValue = (option, value) => option._id === value?._id;
-
-  const getOptionLabel = (option) => option.cityName || "Unknown City";
-
+  useEffect(() => {
+    handleCityChange();
+  },[])
   const handleAddCampus = () => {
     if (!city) {
       setAlert({ message: "City is required", type: "error" });
@@ -45,26 +44,32 @@ const AddCampus = () => {
         ADD CAMPUS
       </button>
       <dialog id="addCampusModal" className="modal">
-        <div className="modal-box flex flex-col gap-4">
-          <h3 className="font-bold text-lg text-center">Add Campus</h3>
+        <div className="modal-box flex flex-col gap-4 h-[80vh] justify-center">
+          <h3 className="font-bold text-lg text-center uppercase">Add Campus</h3>
           <Autocomplete
             disablePortal
             id="cities"
             options={cities}
-            getOptionLabel={getOptionLabel}
-            isOptionEqualToValue={isOptionEqualToValue}
+            getOptionLabel={(option) => option.cityName || "Unknown City"}
+            isOptionEqualToValue={(option, value) => option._id === value?._id}
             sx={{ width: "100%" }}
             renderInput={(params) => <TextField {...params} label="City" />}
             onChange={(event, value) => setCity(value)}
             value={city}
           />
-          <TextField
-            id="campus"
-            label="Campus"
-            type="text"
-            className="w-full"
-            placeholder="Enter Campus"
-            onChange={(e) => setCampusName(e.target.value)}
+          <Autocomplete
+            freeSolo
+            disablePortal
+            id="campuses"
+            options={campuses.map((campus) => campus.name)}
+            getOptionLabel={(option) => option}
+            isOptionEqualToValue={(option, value) => option === value}
+            sx={{ width: "100%" }}
+            renderInput={(params) => <TextField {...params} label="Campus"  onChange={(event) => setCampusName(event.target.value)}/>}
+            onInputChange={(event, newInputValue) => {
+              setCampusName(newInputValue);
+            }}
+            onChange={(event, value) => setCampusName(value)}
             value={campusName}
           />
           <div className="modal-action">

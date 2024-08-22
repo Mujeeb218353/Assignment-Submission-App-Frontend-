@@ -65,8 +65,8 @@ const AddCourse = () => {
         ADD COURSE
       </button>
       <dialog id="addCourseModal" className="modal">
-        <div className="modal-box flex flex-col gap-4">
-          <h3 className="font-bold text-lg text-center">Add Course</h3>
+        <div className="modal-box flex flex-col gap-4 h-[80vh] justify-around">
+          <h3 className="font-bold text-lg text-center uppercase">Add Course</h3>
           <Autocomplete
             disablePortal
             id="cities"

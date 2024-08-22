@@ -1186,7 +1186,7 @@ const AppContext = ({ children }) => {
     }
     
   }
-  
+
   useEffect(() => {
     const accessToken = localStorage.getItem("my-accessToken");
     const role = localStorage.getItem("my-role");
@@ -1344,6 +1344,7 @@ const AppContext = ({ children }) => {
         deleteClass,
         editStudentVerification,
         deleteStudent,
+        getCity,
       }}
     >
       {children}
