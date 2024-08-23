@@ -18,6 +18,7 @@ import Course from "./Course";
 import EnrollInClass from "./EnrollInClass";
 import Assignment from "./Assignment";
 import ShowStudents from "./ShowStudents";
+import StudentsPerformance from "./StudentsPerformance";
 
 const Admin = () => {
   const { user } = useContext(GlobalContext);
@@ -35,6 +36,7 @@ const Admin = () => {
   const teacherTabs = [
     { label: "Assignment", value: "1", content: <AddAssignment /> },
     { label: "Quizzes", value: "2", content: <AddQuiz /> },
+    { label: "Students Performance", value: "3", content: <StudentsPerformance /> },
   ];
 
   const studentTabs = [
