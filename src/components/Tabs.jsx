@@ -30,13 +30,13 @@ const Admin = () => {
     { label: "Teachers", value: "2", content: <AddTeacher /> },
     { label: "Classes", value: "4", content: <AddClass /> },
     { label: "Students", value: "5", content: <ShowStudents /> },
-    // { label: "Attendance", value: "5", content: <AddAttendance /> },
+    { label: "Attendance", value: "6", content: <AddAttendance /> },
   ];
 
   const teacherTabs = [
     { label: "Assignment", value: "1", content: <AddAssignment /> },
     { label: "Quizzes", value: "2", content: <AddQuiz /> },
-    { label: "Students Performance", value: "3", content: <StudentsPerformance /> },
+    { label: "Students", value: "3", content: <StudentsPerformance /> },
   ];
 
   const studentTabs = [

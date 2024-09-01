@@ -249,7 +249,7 @@ const AddAssignment = () => {
                   </p>
                   <div className="card-actions justify-center xs:justify-start mt-2">
                     <Link
-                      to={`/${assignment._id}`}
+                      to={`/assignment/${assignment._id}`}
                       className="btn btn-info btn-outline"
                       onClick={() => {
                         setAlert(null);

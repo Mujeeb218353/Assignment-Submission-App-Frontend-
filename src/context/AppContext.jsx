@@ -31,6 +31,7 @@ const AppContext = ({ children }) => {
   const [assignmentId, setAssignmentId] = useState("");
   const [studentsSubmittedAssignment, setStudentsSubmittedAssignment] = useState([]);
   const [classes, setClasses] = useState([]);
+  const [studentsByClass, setStudentsByClass] = useState([])
   const [studentsNotSubmittedAssignment, setStudentsNotSubmittedAssignment] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -1187,6 +1188,24 @@ const AppContext = ({ children }) => {
     
   }
 
+  const getStudentsByClass = async (classId) => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_USERS_API}/teacher/getStudentsByClass/${classId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("my-accessToken")}`,
+          },
+        }
+      )
+      setStudentsByClass(response.data.data);
+      console.log(response.data.data);
+    } catch (error) {
+      console.log(error);
+      setAlert({message: error.response.data.message, type: "error"})
+    }
+  }
+
   useEffect(() => {
     const accessToken = localStorage.getItem("my-accessToken");
     const role = localStorage.getItem("my-role");
@@ -1305,6 +1324,8 @@ const AppContext = ({ children }) => {
         setAllClasses,
         allStudents,
         setAllStudents,
+        studentsByClass,
+        setStudentsByClass,
 
         addCity,
         addCampus,
@@ -1345,6 +1366,7 @@ const AppContext = ({ children }) => {
         editStudentVerification,
         deleteStudent,
         getCity,
+        getStudentsByClass,
       }}
     >
       {children}

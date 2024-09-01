@@ -10,6 +10,7 @@ import Home from "./pages/Home.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Profile from "./pages/Profile.jsx";
 import AssignmentDetails from "./pages/AssignmentDetails.jsx";
+import ViewStudentPerformance from "./pages/ViewStudentPerformance.jsx";
 
 const router = createBrowserRouter([
   {
@@ -33,8 +34,12 @@ const router = createBrowserRouter([
             element: <Profile />,
           },
           {
-            path: ":id",
+            path: "/assignment/:id",
             element: <AssignmentDetails />,
+          },
+          {
+            path: "/student/:id",
+            element: <ViewStudentPerformance />,
           }
         ],
       },
