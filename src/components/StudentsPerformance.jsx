@@ -2,10 +2,14 @@ import React, { useContext, useState, useEffect } from 'react';
 import { GlobalContext } from "../context/AppContext";
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
+import { Link } from 'react-router-dom';
 
 const StudentsPerformance = () => {
-  const { classes, getStudentsByClass, studentsByClass } = useContext(GlobalContext);
+  const { classes, getStudentsByClass, studentsByClass, viewStudentPerformance } = useContext(GlobalContext);
   const [selectedClass, setSelectedClass] = useState(null);
+
+  // console.log(studentsByClass);
+  
 
   useEffect(() => {
     if (selectedClass) {
@@ -63,9 +67,14 @@ const StudentsPerformance = () => {
                     <td>{student?.CNIC}</td>
                     <td>{student?.address}</td>
                     <td>
-                      <button className="btn btn-info btn-outline" onClick={() => handleViewPerformance(student)}>
+                      <Link 
+                        to={`/students/${student._id}`}
+                        className="btn btn-info btn-outline" onClick={() => {
+                          viewStudentPerformance(selectedClass._id, student._id)
+
+                        }}>
                         Details
-                      </button>
+                      </Link>
                     </td>
                   </tr>
                 ))}
@@ -80,11 +89,6 @@ const StudentsPerformance = () => {
       )}
     </div>
   );
-};
-
-const handleViewPerformance = (student) => {
-  // Logic to navigate to the performance page for the selected student
-  console.log(`Viewing performance for student: ${student.fullName}`);
 };
 
 export default StudentsPerformance;
