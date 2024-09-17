@@ -69,10 +69,13 @@ const StudentsPerformance = () => {
                     <td>
                       <Link 
                         to={`/students/${student._id}`}
-                        className="btn btn-info btn-outline" onClick={() => {
+                        className="btn btn-info btn-outline" 
+                        onClick={() => {
                           viewStudentPerformance(selectedClass._id, student._id)
-
-                        }}>
+                          localStorage.setItem('studentId', student._id);
+                          localStorage.setItem('classId', selectedClass._id);
+                        }}
+                        >
                         Details
                       </Link>
                     </td>
