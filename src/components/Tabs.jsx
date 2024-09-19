@@ -19,7 +19,7 @@ import ShowStudents from "./ShowStudents";
 import StudentsPerformance from "./StudentsPerformance";
 
 const Admin = () => {
-  const { user } = useContext(GlobalContext);
+  const { user, setAlert } = useContext(GlobalContext);
   const materialUIThemeChanger = useMaterialUIThemeChanger();
 
   const adminTabs = [
@@ -62,16 +62,6 @@ const Admin = () => {
       }, 300);
     }, 300);
   };
-
-  // if(navigator.onLine === false){
-  //   return (
-  //     <div className="text-center text-xl">
-  //       Please check your internet connection
-  //     </div>
-  //   );
-  // }
-
-
 
   if (user?.isVerified !== true && user?.role !== "admin") {
     return (

@@ -3,6 +3,7 @@ import { GlobalContext } from "../context/AppContext";
 import { Link } from "react-router-dom";
 import ThemeChanger from "../components/ThemeChanger";
 import SMITLogo from "../assets/SMIT.png";
+import Tabs from "../components/Tabs";
 
 const NavbarFunc = () => {
   const { user, logoutUser, theme } = useContext(GlobalContext);
@@ -12,7 +13,7 @@ const NavbarFunc = () => {
       className={"navbar shadow-md fixed flex justify-between z-10"}
       data-theme={theme}
     >
-      <div>
+      <div className="flex gap-4">
         <div className="dropdown dropdown-start">
           <div
             tabIndex={0}
@@ -42,6 +43,9 @@ const NavbarFunc = () => {
               <button onClick={logoutUser}>Logout</button>
             </li>
           </ul>
+        </div>
+        <div className="flex gap-4">
+          
         </div>
       </div>
       <div className="btn btn-ghost btn-circle avatar">

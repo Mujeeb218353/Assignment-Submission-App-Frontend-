@@ -56,14 +56,6 @@ const ShowClassesCard = () => {
                       <span className="font-bold">Assignments: </span>
                       {cls.assignments.length || 0}
                     </p>
-                    <p>
-                      <span className="font-bold">Quizzes: </span>
-                      {cls.quizzes.length || 0}
-                    </p>
-                    <p>
-                      <span className="font-bold">Attendances: </span>
-                      {cls.attendances.length || 0}
-                    </p>
                   </div>
                   <div>
                     <h2 className="text-2xl font-bold mb-4">Teacher Info</h2>
