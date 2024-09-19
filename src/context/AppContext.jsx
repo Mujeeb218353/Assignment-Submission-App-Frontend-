@@ -61,7 +61,7 @@ const AppContext = ({ children }) => {
         localStorage.setItem("my-role", role);
         setTimeout(() => {
           setAlert(null);
-          navigate(`/${role}`);
+          navigate(`/`);
         }, 2000);
         await getUser();
       }
@@ -120,7 +120,7 @@ const AppContext = ({ children }) => {
       setAlert({ message: "Logged In Successfully", type: "success" });
       setTimeout(() => {
         setAlert(null);
-        navigate(`/${role}`);
+        navigate(`/`);
       }, 2000);
     } catch (error) {
       setAlert({
