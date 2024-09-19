@@ -1,22 +1,20 @@
-import { useContext, useState, useRef } from "react";
-import { GlobalContext } from "../context/AppContext";
-import { ThemeProvider } from "@mui/material/styles";
-import useMaterialUIThemeChanger from "../hooks/useMaterialUiTheme";
-import Box from "@mui/material/Box";
-import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
+import Box from "@mui/material/Box";
 import Slide from "@mui/material/Slide";
+import { ThemeProvider } from "@mui/material/styles";
+import Tab from "@mui/material/Tab";
+import { useContext, useRef, useState } from "react";
+import { GlobalContext } from "../context/AppContext";
+import useMaterialUIThemeChanger from "../hooks/useMaterialUiTheme";
 import AddAdmin from "./AddAdmin";
-import AddTeacher from "./AddTeacher";
-import AddAttendance from "./AddAttendance";
 import AddAssignment from "./AddAssignment";
-import AddQuiz from "./AddQuiz";
 import AddClass from "./AddClass";
+import AddTeacher from "./AddTeacher";
+import Assignment from "./Assignment";
 import Course from "./Course";
 import EnrollInClass from "./EnrollInClass";
-import Assignment from "./Assignment";
 import ShowStudents from "./ShowStudents";
 import StudentsPerformance from "./StudentsPerformance";
 
@@ -30,23 +28,15 @@ const Admin = () => {
     { label: "Teachers", value: "2", content: <AddTeacher /> },
     { label: "Classes", value: "4", content: <AddClass /> },
     { label: "Students", value: "5", content: <ShowStudents /> },
-    { label: "Attendance", value: "6", content: <AddAttendance /> },
   ];
 
   const teacherTabs = [
-    { label: "Assignment", value: "1", content: <AddAssignment /> },
-    { label: "Quizzes", value: "2", content: <AddQuiz /> },
+    { label: "Assignments", value: "1", content: <AddAssignment /> },
     { label: "Students", value: "3", content: <StudentsPerformance /> },
   ];
 
   const studentTabs = [
-    { label: "Assignment", value: "1", content: <Assignment /> },
-    { label: "Quiz", value: "2", content: <div>Quiz</div> },
-    {
-      label: "View Attendance",
-      value: "3",
-      content: <div>View Attendance</div>,
-    },
+    { label: "Assignments", value: "1", content: <Assignment /> },
   ];
 
   const tabs =
