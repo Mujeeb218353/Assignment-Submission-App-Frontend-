@@ -29,7 +29,7 @@ const MainLayout = () => {
         (
           ""
         ) : (
-          <div className="text-center text-xl bg-red-500 text-white w-full fixed top-16 z-50">
+          <div className="text-center text-xl bg-red-500 text-white w-full fixed top-16 z-10">
             No Internet Connection
           </div>
         )

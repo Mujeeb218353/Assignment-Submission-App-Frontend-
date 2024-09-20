@@ -61,7 +61,7 @@ const AppContext = ({ children }) => {
         localStorage.setItem("my-role", role);
         setTimeout(() => {
           setAlert(null);
-          navigate(`/${role}`);
+          navigate(`/`);
         }, 2000);
         await getUser();
       }
@@ -120,7 +120,7 @@ const AppContext = ({ children }) => {
       setAlert({ message: "Logged In Successfully", type: "success" });
       setTimeout(() => {
         setAlert(null);
-        navigate(`/${role}`);
+        navigate(`/`);
       }, 2000);
     } catch (error) {
       setAlert({
@@ -703,7 +703,7 @@ const AppContext = ({ children }) => {
         `${
           import.meta.env.VITE_USERS_API
         }/teacher/getStudentsSubmittedAssignment/${
-          assignmentId ? assignmentId : location.pathname.split("/")[1]
+          assignmentId ? assignmentId : location.pathname.split("/")[2]
         }`,
         {
           headers: {
@@ -723,7 +723,7 @@ const AppContext = ({ children }) => {
         `${
           import.meta.env.VITE_USERS_API
         }/teacher/getStudentsNotSubmittedAssignment/${
-          assignmentId ? assignmentId : location.pathname.split("/")[1]
+          assignmentId ? assignmentId : location.pathname.split("/")[2]
         }`,
         {
           headers: {

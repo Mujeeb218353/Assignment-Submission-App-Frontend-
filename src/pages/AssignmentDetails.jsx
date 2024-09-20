@@ -22,7 +22,7 @@ const AssignmentDetails = () => {
   const [updateMarks, setUpdateMarks] = useState({
     marks: 0,
     studentId: "",
-    assignmentId: assignmentId ? assignmentId : location.pathname.split("/")[1],
+    assignmentId: assignmentId ? assignmentId : location.pathname.split("/")[2],
   });
 
   useEffect(() => {
@@ -84,12 +84,12 @@ const AssignmentDetails = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <div className="min-h-screen py-20 px-4 flex flex-col items-center">
+      <div className="min-h-screen py-20 pt-32 px-4 flex flex-col items-center">
         <h1 className="text-2xl font-semibold mb-4 text-center">
           {studentsSubmittedAssignment.title || ""}
         </h1>
         <div className="overflow-x-auto w-full mb-4 p-4 flex flex-col justify-center items-center">
-        <div className="w-full max-w-md mx-auto p-4 shadow-md rounded-lg">
+        <div className="w-full max-w-md mx-auto p-4 shadow-md rounded-lg border">
             <div className="flex justify-between mb-2">
                 <span className="text-lg font-semibold ">Assignment Submissions</span>
                 <span className="text-lg font-semibold text-center">
@@ -109,7 +109,7 @@ const AssignmentDetails = () => {
             </div>
         </div>
         </div>
-        <div className="overflow-x-auto shadow-xl rounded-md w-full">
+        <div className="overflow-x-auto shadow-xl rounded-xl w-full border pt-4">
           <table className="table">
             <thead>
               <tr className="text-center">
@@ -131,11 +131,11 @@ const AssignmentDetails = () => {
                       {data.link ? (
                         <a
                           href={data.link}
-                          className=""
+                          className="btn btn-info btn-outline px-8"
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          {data.link}
+                          Visit
                         </a>
                       ) : (
                         ""
@@ -157,7 +157,7 @@ const AssignmentDetails = () => {
                       {data.link ? (
                         <div>
                           <button
-                            className="btn btn-accent"
+                            className="btn btn-accent btn-outline"
                             onClick={() => {
                               setUpdateMarks({
                                 marks: data.marks,

@@ -342,7 +342,7 @@ const AddAssignment = () => {
                             X
                           </button>
                           <button
-                            className="btn btn-success w-full xs:w-1/2"
+                            className="btn btn-accent w-full "
                             onClick={(e) => {
                               setEditAssignment({
                                 ...editAssignment,
