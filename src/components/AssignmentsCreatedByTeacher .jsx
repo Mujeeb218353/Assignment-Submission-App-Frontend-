@@ -107,7 +107,7 @@ const AssignmentsCreatedByTeacher  = () => {
           </tbody>
         </table>
       ) : (
-        <p>No assignments found</p>
+        <p className="text-center">No assignments found</p>
       )}
     </div>
   </div>
