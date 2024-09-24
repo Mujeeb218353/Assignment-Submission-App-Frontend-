@@ -13,7 +13,7 @@ function convertLocalTimeToUTCFormatted(dateString) {
   return utcFormatted;
 }
 
-const AssignmentsCreatedByTeacher  = () => {
+const AssignmentsCreatedByTeacher = () => {
   const {
     createAssignment,
     createdAssignments,
@@ -45,73 +45,69 @@ const AssignmentsCreatedByTeacher  = () => {
 
   return (
     <div className="flex flex-col justify-center items-center gap-4 w-full md:w-3/4 m-auto">
-  <CreateAssignment
-    assignment={assignment}
-    setAssignment={setAssignment}
-    classes={classes}
-    createAssignment={createAssignment}
-  />
-  <div className="flex flex-col justify-center items-center gap-4 w-full border rounded-xl">
-    <h1 className="text-3xl font-bold mt-4">Assignments</h1>
-    <div className="overflow-x-auto w-full">
-      {createdAssignments && createdAssignments.length > 0 ? (
-        <table className="table w-full">
-          <thead>
-            <tr className="text-center">
-              <th>Title</th>
-              <th>Class</th>
-              <th>Batch</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {createdAssignments
-              .slice()
-              .reverse()
-              .map((assignment) => (
-                <tr key={assignment._id} className="text-center">
-                  <td className="font-bold">{assignment.title}</td>
-                  <td>
-                    {assignment.className.name}
-                  </td>
-                  <td>
-                    {assignment.className.batch}
-                  </td>
-                  <td>
-                    <div className="flex gap-2 justify-center">
-                      <ViewAssignment 
-                        assignment={assignment} 
-                        formatDate={formatDate}
-                      />
-                      <EditAssignment
-                        assignment={assignment}
-                        editAssignment={editAssignment}
-                        setEditAssignment={setEditAssignment}
-                        editCreatedAssignment={editCreatedAssignment}
-                        setAlert={setAlert}
-                      />
-                      <DeleteAssignment
-                        assignmentId={assignment._id}
-                        deleteCreatedAssignment={deleteCreatedAssignment}
-                        setAlert={setAlert}
-                      />
-                      <ViewAssignmentSubmissions
-                        assignmentId={assignment._id}
-                        setAssignmentId={setAssignmentId}
-                        setAlert={setAlert}
-                      />
-                    </div>
-                  </td>
+      <CreateAssignment
+        assignment={assignment}
+        setAssignment={setAssignment}
+        classes={classes}
+        createAssignment={createAssignment}
+      />
+      <div className="flex flex-col justify-center items-center gap-4 w-full border rounded-xl">
+        <h1 className="text-3xl font-bold mt-4">Assignments</h1>
+        <div className="overflow-x-auto w-full">
+          {createdAssignments && createdAssignments.length > 0 ? (
+            <table className="table w-full">
+              <thead>
+                <tr className="text-center">
+                  <th>Title</th>
+                  <th>Class</th>
+                  <th>Batch</th>
+                  <th>Actions</th>
                 </tr>
-              ))}
-          </tbody>
-        </table>
-      ) : (
-        <p className="text-center">No assignments found</p>
-      )}
+              </thead>
+              <tbody>
+                {createdAssignments
+                  .slice()
+                  .reverse()
+                  .map((assignment) => (
+                    <tr key={assignment._id} className="text-center">
+                      <td className="font-bold">{assignment.title}</td>
+                      <td>{assignment.className.name}</td>
+                      <td>{assignment.className.batch}</td>
+                      <td>
+                        <div className="flex gap-2 justify-center">
+                          <ViewAssignment
+                            assignment={assignment}
+                            formatDate={formatDate}
+                          />
+                          <EditAssignment
+                            assignment={assignment}
+                            editAssignment={editAssignment}
+                            setEditAssignment={setEditAssignment}
+                            editCreatedAssignment={editCreatedAssignment}
+                            setAlert={setAlert}
+                          />
+                          <DeleteAssignment
+                            assignmentId={assignment._id}
+                            deleteCreatedAssignment={deleteCreatedAssignment}
+                            setAlert={setAlert}
+                          />
+                          <ViewAssignmentSubmissions
+                            assignmentId={assignment._id}
+                            setAssignmentId={setAssignmentId}
+                            setAlert={setAlert}
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          ) : (
+            <p className="text-center">No assignments found</p>
+          )}
+        </div>
+      </div>
     </div>
-  </div>
-</div>
   );
 };
 
@@ -262,7 +258,11 @@ const CreateAssignment = ({
   );
 };
 
-const ViewAssignmentSubmissions = ({ assignmentId, setAssignmentId, setAlert }) => {
+const ViewAssignmentSubmissions = ({
+  assignmentId,
+  setAssignmentId,
+  setAlert,
+}) => {
   return (
     <>
       <Link
@@ -285,43 +285,48 @@ const ViewAssignment = ({ assignment, formatDate }) => {
       <button
         className="btn btn-warning btn-outline"
         onClick={() => {
-          document.getElementById(`show-assignment-${assignment._id}`).showModal();
+          document
+            .getElementById(`show-assignment-${assignment._id}`)
+            .showModal();
         }}
       >
         View
       </button>
       <dialog id={`show-assignment-${assignment._id}`} className="modal">
-        <div className="modal-box flex flex-col justify-center items-center gap-4">
-          <div className="card-body">
+        <div className="modal-box  w-11/12 max-w-5xl flex flex-col justify-center items-center gap-4">
+          <div className="card-body w-full gap-2">
             <h2 className="text-2xl font-bold text-center mb-4">
               {assignment.title}
             </h2>
-            <p>
-              <b>Description: </b>
-              {assignment.description}
+            <p className="flex flex-wrap text-center">
+              <b className="w-full text-lg">Description</b>
+              <p>{assignment.description}</p>
             </p>
-
-            <p>
-              <b>Assign Date: </b>
-              {formatDate(assignment.assignedDate)}
+            <p className="flex flex-wrap text-center">
+              <b className="w-full text-lg">Assign Date</b>
+              <p>{formatDate(assignment.assignedDate)}</p>
             </p>
-            <p>
-              <b>Due Date: </b>
-              {formatDate(assignment.lastDate)}
+            <p className="flex flex-wrap text-center">
+              <b className="w-full text-lg">Due Date</b>
+              <p>{formatDate(assignment.lastDate)}</p>
             </p>
-            <p>
-              <b>Class: </b>
-              {assignment.className.name}
+            <p className="flex flex-wrap text-center">
+              <b className="w-full text-lg">Class</b>
+              <p>{assignment.className.name}</p>
             </p>
-            <p>
-              <b>Batch: </b>
-              {assignment.className.batch}
+            <p className="flex flex-wrap text-center">
+              <b className="w-full text-lg">Batch</b>
+              <p>{assignment.className.batch}</p>
             </p>
           </div>
           <div className="modal-action">
             <button
               className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-              onClick={() => document.getElementById(`show-assignment-${assignment._id}`).close()}
+              onClick={() =>
+                document
+                  .getElementById(`show-assignment-${assignment._id}`)
+                  .close()
+              }
             >
               X
             </button>
