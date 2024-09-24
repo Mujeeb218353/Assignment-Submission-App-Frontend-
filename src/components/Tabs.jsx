@@ -9,7 +9,7 @@ import { useContext, useRef, useState } from "react";
 import { GlobalContext } from "../context/AppContext";
 import useMaterialUIThemeChanger from "../hooks/useMaterialUiTheme";
 import AddAdmin from "./AddAdmin";
-import AddAssignment from "./AddAssignment";
+import AssignmentsCreatedByTeacher from "./AssignmentsCreatedByTeacher ";
 import AddClass from "./AddClass";
 import AddTeacher from "./AddTeacher";
 import Assignment from "./Assignment";
@@ -31,7 +31,7 @@ const Admin = () => {
   ];
 
   const teacherTabs = [
-    { label: "Assignments", value: "1", content: <AddAssignment /> },
+    { label: "Assignments", value: "1", content: <AssignmentsCreatedByTeacher  /> },
     { label: "Students", value: "3", content: <StudentsPerformance /> },
   ];
 
