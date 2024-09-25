@@ -12,7 +12,8 @@ import AddAdmin from "./AddAdmin";
 import AssignmentsCreatedByTeacher from "./AssignmentsCreatedByTeacher ";
 import AddClass from "./AddClass";
 import AddTeacher from "./AddTeacher";
-import StudentAssignments from "./StudentAssignments";
+import SubmittedAssignments from "./SubmittedAssignments";
+import PendingAssignments from "./PendingAssignments";
 import Course from "./Course";
 import EnrollInClass from "./EnrollInClass";
 import ShowStudents from "./ShowStudents";
@@ -36,7 +37,8 @@ const Admin = () => {
   ];
 
   const studentTabs = [
-    { label: "Assignments", value: "1", content: <Assignment /> },
+    { label: "Submitted Assignments", value: "1", content: <SubmittedAssignments /> },
+    { label: "Pending Assignments", value: "2", content: <PendingAssignments /> },
   ];
 
   const tabs =
