@@ -7,7 +7,7 @@ const Footer = () => {
         <p className="text-center">Copyright © {new Date().getFullYear()} - All rights reserved by <b>SMIT</b></p>
       </aside>
       <nav className="flex justify-center gap-4">
-        <a href="https://www.youtube.com/@SaylaniMassITTraining" target="_blank">
+        <a href="https://twitter.com/SaylaniMassIT" target="_blank">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"

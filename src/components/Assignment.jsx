@@ -16,9 +16,9 @@ const Assignment = () => {
 
   return (
     <div className="w-full flex flex-col justify-center items-center gap-4 pt-4">
-      <div className="w-full flex flex-col justify-center items-center gap-4">
-        <h2 className="text-xl font-semibold text-center">Submissions</h2>
-        <div className="overflow-x-auto shadow-xl rounded-md w-full">
+      <div className="w-full flex flex-col justify-center items-center gap-4 shadow-xl rounded-xl border">
+        <h2 className="text-xl font-semibold text-center p-4">Submissions</h2>
+        <div className="overflow-x-auto w-full">
           <table className="table w-full">
             <thead>
               <tr className="text-center">
@@ -180,7 +180,7 @@ const Assignment = () => {
                 ))
               ) : (
                 <tr className="text-center w-full">
-                  <td colSpan="6" className="w-full">
+                  <td colSpan="6" className="w-full text-center">
                     No submitted assignments available
                   </td>
                 </tr>
@@ -189,11 +189,11 @@ const Assignment = () => {
           </table>
         </div>
       </div>
-      <div className="w-full flex flex-col justify-center items-center gap-4 mt-8">
-        <h2 className="text-xl font-semibold text-center">
+      <div className="w-full flex flex-col justify-center items-center gap-4 mt-8 shadow-xl rounded-xl border">
+        <h2 className="text-xl font-semibold text-center p-4">
           Pending Submissions
         </h2>
-        <div className="overflow-x-auto shadow-xl rounded-md w-full">
+        <div className="overflow-x-auto w-full">
           <table className="table w-full">
             <thead>
               <tr className="text-center">
