@@ -3,7 +3,7 @@ import { GlobalContext } from "../context/AppContext";
 import SubmitAssignment from "./SubmitAssignment";
 import EditSubmittedAssignment from "./EditSubmittedAssignment";
 
-const Assignment = () => {
+const StudentAssignments = () => {
   const {
     submittedAssignments,
     unSubmittedAssignments,
@@ -249,4 +249,4 @@ const Assignment = () => {
   );
 };
 
-export default Assignment;
+export default StudentAssignments;

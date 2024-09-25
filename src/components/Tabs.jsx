@@ -12,7 +12,7 @@ import AddAdmin from "./AddAdmin";
 import AssignmentsCreatedByTeacher from "./AssignmentsCreatedByTeacher ";
 import AddClass from "./AddClass";
 import AddTeacher from "./AddTeacher";
-import Assignment from "./Assignment";
+import StudentAssignments from "./StudentAssignments";
 import Course from "./Course";
 import EnrollInClass from "./EnrollInClass";
 import ShowStudents from "./ShowStudents";
