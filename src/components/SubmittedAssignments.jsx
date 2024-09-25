@@ -30,7 +30,7 @@ const SubmittedAssignments = () => {
               submittedAssignments.map((assignment) => (
                 <tr key={assignment._id} className="text-center">
                   <td className="font-semibold">{assignment.title}</td>
-                  <td>
+                  <td className="">
                     {assignment.submittedBy &&
                       assignment.submittedBy
                         .filter(
@@ -42,8 +42,9 @@ const SubmittedAssignments = () => {
                             key={student._id}
                             href={student.link}
                             target="_blank"
+                            className="btn btn-info btn-outline"
                           >
-                            {student.link}
+                            View
                           </a>
                         ))}
                   </td>
